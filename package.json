@@ -1,0 +1,30 @@
+{
+    "name": "react-native-ble-advertiser",
+    "version": "0.0.3",
+    "description": "A react-native implementation for sending BLE advertisements",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "react",
+        "react-component",
+        "react-native",
+        "android",
+        "ble",
+        "bluetooth"
+    ],
+    "author": "Vitor Pamplona <vitor@vitorpamplona.com> based on Will Dimmit's design on GitHub",
+    "license": "MIT",
+    "repository": "https://github.com/vitorpamplona/react-native-ble-advertiser",
+    "bugs": "https://github.com/vitorpamplona/react-native-ble-advertiser/issues",
+    "peerDependencies": {
+        "react-native": ">=0.50"
+    },
+    "dependencies": {},
+    "rnpm": {
+        "android": {
+            "packageInstance": "new AndroidBLEAdvertiserPackage()"
+        }
+    }
+}
