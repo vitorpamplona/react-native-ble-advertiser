@@ -14,7 +14,7 @@ RN 0.60+
 ##### Android
 
 1. In build.gradle of app module make sure that min SDK version is at least 23:
-```
+```groovy
 android {
     ...
     defaultConfig {
@@ -23,7 +23,7 @@ android {
 ```
 
 2. In AndroidManifest.xml, add Bluetooth permissions and update <uses-sdk/>:
-```
+```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     ...
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -35,11 +35,13 @@ android {
 
 Import the module
 
-```import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'```
+```javascript
+import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
+```
 
 Define your company ID and broadcast your UUID with additional data. 
 
-````
+````javascript
 AndroidBLEAdvertiserModule.setCompanyId(<0x00>); // Your Company's Code
 AndroidBLEAdvertiserModule.broadcastPacket(<UUID>, []) // Your UUID and additional data. 
 .then((sucess) => {
