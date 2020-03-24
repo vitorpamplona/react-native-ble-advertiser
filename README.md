@@ -35,13 +35,13 @@ android {
 
 Import the module
 
-```javascript
+```js
 import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
 ```
 
 Define your company ID and broadcast your UUID with additional data. 
 
-````javascript
+````js
 AndroidBLEAdvertiserModule.setCompanyId(<0x00>); // Your Company's Code
 AndroidBLEAdvertiserModule.broadcastPacket(<UUID>, []) // Your UUID and additional data. 
 .then((sucess) => {
