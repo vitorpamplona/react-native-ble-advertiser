@@ -54,7 +54,9 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             mBluetoothAdapter = bluetoothManager.getAdapter();
         } 
 
-        mObservedState = mBluetoothAdapter.isEnabled();
+        if (mBluetoothAdapter != null) {
+            mObservedState = mBluetoothAdapter.isEnabled();
+        }
 
         this.companyId = 0x0000;
 
@@ -74,7 +76,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void broadcastPacket(String uid, ReadableArray payload, final Promise promise) {
-        if (companyId == 0x0000) {
+        if (mBluetoothAdapter == null) {
+            Log.w("BLEAdvertiserModule", "Device does not support Bluetooth. Adapter is Null");
+            promise.reject("Device does not support Bluetooth. Adapter is Null");
+        } else if (companyId == 0x0000) {
             Log.w("BLEAdvertiserModule", "Invalid company id");
             promise.reject("Invalid company id");
         }
@@ -124,6 +129,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void enableAdapter() {
+        if (mBluetoothAdapter == null) {
+            return;
+        }
+
         if (mBluetoothAdapter.getState() != BluetoothAdapter.STATE_ON && mBluetoothAdapter.getState() != BluetoothAdapter.STATE_TURNING_ON) {
             mBluetoothAdapter.enable();
         }
@@ -131,6 +140,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void disableAdapter() {
+        if (mBluetoothAdapter == null) {
+            return;
+        }
+
         if (mBluetoothAdapter.getState() != BluetoothAdapter.STATE_OFF && mBluetoothAdapter.getState() != BluetoothAdapter.STATE_TURNING_OFF) {
             mBluetoothAdapter.disable();
         }
@@ -138,6 +151,12 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getAdapterState(Promise promise) {
+        if (mBluetoothAdapter == null) {
+            Log.w("BLEAdvertiserModule", "Device does not support Bluetooth. Adapter is Null");
+            promise.reject("Device does not support Bluetooth. Adapter is Null");
+            return;
+        }
+
         Log.d(TAG, "Here" + String.valueOf(mBluetoothAdapter.getState()));
         promise.resolve(String.valueOf(mBluetoothAdapter.getState()));
     }
