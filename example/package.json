@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "react-native-ble-advertiser-example",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.2.tgz"
+    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.5.tgz",
+    "react-native-uuid-generator": "^6.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

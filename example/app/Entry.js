@@ -6,7 +6,9 @@ import {
   ScrollView,
   View,
   Text,
+  Button,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 
 import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
@@ -16,22 +18,97 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
+import UUIDGenerator from 'react-native-uuid-generator';
+import { PermissionsAndroid } from 'react-native';
+
+export async function requestLocationPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        'title': 'Example App',
+        'message': 'Example App access to your location '
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the location")
+    } else {
+      console.log("location permission denied")
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
 
 class Entry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uuid:'d4e45cb4-6b6d-4b9e-8b87-876d2a1729ee'
+            uuid:''
         }
     }
 
     componentDidMount(){
-      console.log("Starting Advertising with", this.state.uuid);
-      AndroidBLEAdvertiserModule.setCompanyId(0xE2);
-      AndroidBLEAdvertiserModule.broadcastPacket(this.state.uuid, [1,2])
+      requestLocationPermission();
+      
+      AndroidBLEAdvertiserModule.setCompanyId(0xFF); // PrivateKit
+      
+      UUIDGenerator.getRandomUUID((newUid) => {
+        this.setState({
+          uuid: newUid
+        });
+      });
+    }
+
+    start() {
+      /*
+      console.log(this.state.uuid, "Starting Advertising");
+      AndroidBLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
       .then((sucess) => {
-          console.log("Sucessful", sucess);
-      }).catch(error => console.log(error));
+        console.log(this.state.uuid, "Adv Sucessful", sucess);
+      }).catch(error => {
+        console.log(this.state.uuid, "Adv Error", error); 
+      });
+      */
+      console.log(this.state.uuid, "Starting Scanner");
+      AndroidBLEAdvertiserModule.scan([12,23,56], {})
+      .then((sucess) => {
+        console.log(this.state.uuid, "Scan Sucessful", sucess);
+      }).catch(error => {
+        console.log(this.state.uuid, "Scan Error", error); 
+      });
+
+      this.setState({
+        isLogging: true,
+      });
+    }
+
+    stop(){
+      /*
+      console.log(this.state.uuid, "Stopping Broadcast");
+      AndroidBLEAdvertiserModule.stopBroadcast()
+        .then((sucess) => {
+          console.log(this.state.uuid, "Stop Scan Sucessful For", sucess);
+        }).catch(error => {
+          console.log(this.state.uuid, "Stop Scan Error for", error); 
+        });
+
+      this.setState({
+        isLogging: false,
+      });
+      */
+
+      console.log(this.state.uuid, "Stopping Scanning");
+      AndroidBLEAdvertiserModule.stopScan()
+        .then((sucess) => {
+          console.log(this.state.uuid, "Stop Scan Sucessful For", sucess);
+        }).catch(error => {
+          console.log(this.state.uuid, "Stop Scan Error for", error); 
+        });
+
+      this.setState({
+        isLogging: false,
+      });
     }
 
     render() {
@@ -51,11 +128,28 @@ class Entry extends Component {
                 <View style={styles.body}>
                   <View style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>Broadcasting Demo</Text>
-                    <Text style={styles.sectionDescription}>
-                      App is Broadcasting <Text style={styles.highlight}>{ this.state.uuid }</Text>
-                    </Text>
+                    <Text style={styles.sectionDescription}>App is Broadcasting</Text>
+                    <Text style={styles.sectionDescription}><Text style={styles.highlight}>{ this.state.uuid }</Text></Text>
                   </View>
-                  
+                  <View style={styles.sectionContainer}>
+                    {this.state.isLogging ? (
+                    <TouchableOpacity
+                      onPress={() => this.stop()}
+                      style={styles.stopLoggingButtonTouchable}>
+                      <Text style={styles.stopLoggingButtonText}>
+                        Stop
+                      </Text>
+                    </TouchableOpacity>
+                     ) : (
+                    <TouchableOpacity
+                      onPress={() => this.start()}
+                      style={styles.startLoggingButtonTouchable}>
+                      <Text style={styles.startLoggingButtonText}>
+                        Start
+                      </Text>
+                    </TouchableOpacity>
+                    )}
+                  </View>
                 </View>
               </ScrollView>
             </SafeAreaView>
@@ -100,6 +194,38 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingRight: 12,
     textAlign: 'right',
+  },
+  startLoggingButtonTouchable: {
+    borderRadius: 12,
+    backgroundColor: '#665eff',
+    height: 52,
+    alignSelf: 'center',
+    width: 300,
+    justifyContent: 'center',
+  },
+  startLoggingButtonText: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 14,
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: 'center',
+    color: '#ffffff',
+  },
+  stopLoggingButtonTouchable: {
+    borderRadius: 12,
+    backgroundColor: '#fd4a4a',
+    height: 52,
+    alignSelf: 'center',
+    width: 300,
+    justifyContent: 'center',
+  },
+  stopLoggingButtonText: {
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 14,
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: 'center',
+    color: '#ffffff',
   },
 });
 
