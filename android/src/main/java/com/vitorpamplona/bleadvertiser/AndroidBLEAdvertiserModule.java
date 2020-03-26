@@ -19,12 +19,19 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.AdvertiseCallback;
 import android.bluetooth.le.AdvertiseData;
 import android.bluetooth.le.AdvertiseSettings;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanFilter;
+import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.bluetooth.le.BluetoothLeAdvertiser;
+import android.bluetooth.le.BluetoothLeScanner;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.ParcelUuid;
+import android.os.Build;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.lang.Thread;
 import java.lang.Object;
@@ -36,8 +43,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     public static final String TAG = "AndroidBleAdvertiserXX0";
     private BluetoothAdapter mBluetoothAdapter;
     
-    private static Hashtable<String, AdvertiseCallback> mCallbackList;
     private static Hashtable<String, BluetoothLeAdvertiser> mAdvertiserList;
+    private static Hashtable<String, AdvertiseCallback> mAdvertiserCallbackList;
+    private static BluetoothLeScanner mScanner;
+    private static ScanCallback mScannerCallback;
     private int companyId;
     private Boolean mObservedState;
 
@@ -45,8 +54,8 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     public AndroidBLEAdvertiserModule(ReactApplicationContext reactContext) {
         super(reactContext);
 
-        mCallbackList = new Hashtable<String, AdvertiseCallback>();
         mAdvertiserList = new Hashtable<String, BluetoothLeAdvertiser>();
+        mAdvertiserCallbackList = new Hashtable<String, AdvertiseCallback>();
 
         BluetoothManager bluetoothManager = (BluetoothManager) reactContext.getApplicationContext()
                 .getSystemService(Context.BLUETOOTH_SERVICE);
@@ -75,57 +84,187 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void broadcastPacket(String uid, ReadableArray payload, final Promise promise) {
+    public void broadcast(String uid, ReadableArray payload, Promise promise) {
         if (mBluetoothAdapter == null) {
             Log.w("BLEAdvertiserModule", "Device does not support Bluetooth. Adapter is Null");
             promise.reject("Device does not support Bluetooth. Adapter is Null");
-        } else if (companyId == 0x0000) {
+            return;
+        } 
+        
+        if (companyId == 0x0000) {
             Log.w("BLEAdvertiserModule", "Invalid company id");
             promise.reject("Invalid company id");
-        }
-        else if (mBluetoothAdapter == null) {
+            return;
+        } 
+        
+        if (mBluetoothAdapter == null) {
             Log.w("BLEAdvertiserModule", "mBluetoothAdapter unavailable");
             promise.reject("mBluetoothAdapter unavailable");
-        }
-        else {
-            BluetoothLeAdvertiser tempAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
+            return;
+        } 
 
-            AdvertiseSettings settings = buildAdvertiseSettings();
-            byte[] temp = new byte[payload.size()];
-            for (int i = 0; i < payload.size(); i++) {
-                temp[i] = (byte)payload.getInt(i);
-            }
+        BluetoothLeAdvertiser tempAdvertiser;
+        AdvertiseCallback tempCallback;
 
-            AdvertiseData data = buildAdvertiseData(ParcelUuid.fromString(uid), temp);
-            AdvertiseCallback tempCallback = new AndroidBLEAdvertiserModule.SimpleAdvertiseCallback(promise);
+        if (mAdvertiserList.containsKey(uid)) {
+            tempAdvertiser = mAdvertiserList.remove(uid);
+            tempCallback = mAdvertiserCallbackList.remove(uid);
 
-            tempAdvertiser.startAdvertising(settings, data, tempCallback);
-
-            mAdvertiserList.put(uid, tempAdvertiser);
-            mCallbackList.put(uid, tempCallback);
-        }
-    }
-
-    @ReactMethod
-    public void cancelPacket(String uid) {
-        AdvertiseCallback tempCallback = mCallbackList.remove(uid);
-        BluetoothLeAdvertiser tempAdvertiser = mAdvertiserList.remove(uid);
-        if (tempCallback != null && tempAdvertiser != null) {
             tempAdvertiser.stopAdvertising(tempCallback);
+        } else {
+            tempAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
+            tempCallback = new AndroidBLEAdvertiserModule.SimpleAdvertiseCallback(promise);
         }
+         
+        if (tempAdvertiser == null) {
+            Log.w("BLEAdvertiserModule", "Advertiser Not Available unavailable");
+            promise.reject("Advertiser unavailable on this device");
+            return;
+        }
+        
+        AdvertiseSettings settings = buildAdvertiseSettings();
+        AdvertiseData data = buildAdvertiseData(ParcelUuid.fromString(uid), toByteArray(payload));
+
+        tempAdvertiser.startAdvertising(settings, data, tempCallback);
+
+        mAdvertiserList.put(uid, tempAdvertiser);
+        mAdvertiserCallbackList.put(uid, tempCallback);
     }
 
-    @ReactMethod
-    public void cancelAllPackets() {
+    private byte[] toByteArray(ReadableArray payload) {
+        byte[] temp = new byte[payload.size()];
+        for (int i = 0; i < payload.size(); i++) {
+            temp[i] = (byte)payload.getInt(i);
+        }
+        return temp;
+    }
+
+   @ReactMethod
+    public void stopBroadcast(final Promise promise) {
+        Log.w("BLEAdvertiserModule", "Stop Broadcast call");
+
+        WritableArray promiseArray=Arguments.createArray();
+
         Set<String> keys = mAdvertiserList.keySet();
         for (String key : keys) {
             BluetoothLeAdvertiser tempAdvertiser = mAdvertiserList.remove(key);
-            AdvertiseCallback tempCallback = mCallbackList.remove(key);
-            if (tempCallback != null && tempAdvertiser != null) {
+            AdvertiseCallback tempCallback = mAdvertiserCallbackList.remove(key);
+            if (tempAdvertiser != null) {
                 tempAdvertiser.stopAdvertising(tempCallback);
+                promiseArray.pushString(key);
             }
         }
+
+        promise.resolve(promiseArray);
     }
+
+    @ReactMethod
+	public void scan(ReadableArray manufacturerPayload, ReadableMap options, Promise promise) {
+        if (mBluetoothAdapter == null) {
+            promise.reject("Device does not support Bluetooth. Adapter is Null");
+            return;
+        }
+
+        if (mScannerCallback == null) {
+            // Cannot change. 
+            mScannerCallback = new SimpleScanCallback();
+        } 
+        
+        if (mScanner == null) {
+            mScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        } else {
+            // was running. Needs to stop first. 
+            mScanner.stopScan(mScannerCallback);
+        }
+
+        if (mScanner == null) {
+            Log.w("BLEAdvertiserModule", "Scanner Not Available unavailable");
+            promise.reject("Scanner unavailable on this device");
+            return;
+        } 
+
+        ScanSettings scanSettings = buildScanSettings(options);
+    
+        List<ScanFilter> filters = new ArrayList<>();
+        filters.add(new ScanFilter.Builder().setManufacturerData(companyId, toByteArray(manufacturerPayload)).build());
+        
+        mScanner.startScan(filters, scanSettings, mScannerCallback);
+        promise.resolve("Scanner started");
+    }
+
+    @ReactMethod
+	public void stopScan(Promise promise) {
+        if (mBluetoothAdapter == null) {
+            promise.reject("Device does not support Bluetooth. Adapter is Null");
+            return;
+        } 
+
+        if (mScanner != null) {
+            mScanner.stopScan(mScannerCallback);
+            mScanner = null;
+            promise.resolve("Scanner stopped");
+        } else {
+            promise.resolve("Scanner not started");
+        }
+    }
+
+    private ScanSettings buildScanSettings(ReadableMap options) {
+        ScanSettings.Builder scanSettingsBuilder = new ScanSettings.Builder();
+
+        if (options != null) {
+            if (options.hasKey("scanMode")) {
+                scanSettingsBuilder.setScanMode(options.getInt("scanMode"));
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (options.hasKey("numberOfMatches")) {
+                    scanSettingsBuilder.setNumOfMatches(options.getInt("numberOfMatches"));
+                }
+                if (options.hasKey("matchMode")) {
+                    scanSettingsBuilder.setMatchMode(options.getInt("matchMode"));
+                }
+            }
+
+            if (options.hasKey("reportDelay")) {
+                scanSettingsBuilder.setReportDelay(options.getInt("reportDelay"));
+            }
+        }
+
+        return scanSettingsBuilder.build();
+    }
+
+    private class SimpleScanCallback extends ScanCallback {
+		@Override
+		public void onScanResult(int callbackType, ScanResult result) {
+            Log.w("BLEAdvertiserModule", "Scanned: " + result.toString());
+            if (result.getScanRecord().getServiceUuids()!=null && result.getScanRecord().getServiceUuids().size() > 0) {
+                Log.w("BLEAdvertiserModule", "Scanned: " + result.getScanRecord().getServiceUuids().get(0).toString());
+            }
+		}
+
+		@Override
+		public void onBatchScanResults(final List<ScanResult> results) {
+
+		}
+
+		@Override
+		public void onScanFailed(final int errorCode) {
+            /*
+           switch (errorCode) {
+                case SCAN_FAILED_ALREADY_STARTED:
+                    promise.reject("Fails to start scan as BLE scan with the same settings is already started by the app."); break;
+                case SCAN_FAILED_APPLICATION_REGISTRATION_FAILED:
+                    promise.reject("Fails to start scan as app cannot be registered."); break;
+                case SCAN_FAILED_FEATURE_UNSUPPORTED:
+                    promise.reject("Fails to start power optimized scan as this feature is not supported."); break;
+                case SCAN_FAILED_INTERNAL_ERROR:
+                    promise.reject("Fails to start scan due an internal error"); break;
+                default: 
+                    promise.reject("Scan failed: " + errorCode);
+            }
+            promise.reject("Scan failed: Should not be here. ");*/
+		}
+	};
 
     @ReactMethod
     public void enableAdapter() {
@@ -160,6 +299,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "Here" + String.valueOf(mBluetoothAdapter.getState()));
         promise.resolve(String.valueOf(mBluetoothAdapter.getState()));
     }
+    
 
     private AdvertiseSettings buildAdvertiseSettings() {
         AdvertiseSettings.Builder settingsBuilder = new AdvertiseSettings.Builder();
@@ -179,8 +319,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     private class SimpleAdvertiseCallback extends AdvertiseCallback {
-
         Promise promise;
+
+        public SimpleAdvertiseCallback () {
+        }
 
         public SimpleAdvertiseCallback (Promise promise) {
             this.promise = promise;
@@ -189,26 +331,31 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         @Override
         public void onStartFailure(int errorCode) {
             super.onStartFailure(errorCode);
+            Log.i(TAG, "Advertising failed with code "+ errorCode);
+
+            if (promise == null) return;
+
             switch (errorCode) {
                 case ADVERTISE_FAILED_FEATURE_UNSUPPORTED:
-                    promise.reject("This feature is not supported on this platform.");
+                    promise.reject("This feature is not supported on this platform."); break;
                 case ADVERTISE_FAILED_TOO_MANY_ADVERTISERS:
-                    promise.reject("Failed to start advertising because no advertising instance is available.");
+                    promise.reject("Failed to start advertising because no advertising instance is available."); break;
                 case ADVERTISE_FAILED_ALREADY_STARTED:
-                    promise.reject("Failed to start advertising as the advertising is already started.");
+                    promise.reject("Failed to start advertising as the advertising is already started."); break;
                 case ADVERTISE_FAILED_DATA_TOO_LARGE:
-                    promise.reject("Failed to start advertising as the advertise data to be broadcasted is larger than 31 bytes.");
+                    promise.reject("Failed to start advertising as the advertise data to be broadcasted is larger than 31 bytes."); break;
                 case ADVERTISE_FAILED_INTERNAL_ERROR:
-                    promise.reject("Operation failed due to an internal error.");
+                    promise.reject("Operation failed due to an internal error."); break;
             }
-            Log.i(TAG, "Advertising failed");
         }
 
         @Override
         public void onStartSuccess(AdvertiseSettings settingsInEffect) {
             super.onStartSuccess(settingsInEffect);
-            promise.resolve(settingsInEffect.toString());
             Log.i(TAG, "Advertising successful");
+
+            if (promise == null) return;
+            promise.resolve(settingsInEffect.toString());
         }
     }
 
