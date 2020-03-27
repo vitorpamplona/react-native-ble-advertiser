@@ -9,9 +9,11 @@ import {
   Button,
   StatusBar,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 
 import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
+import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import {
   Header,
@@ -44,7 +46,8 @@ class Entry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uuid:''
+            uuid:'',
+            devicesFound:[]
         }
     }
 
@@ -58,10 +61,23 @@ class Entry extends Component {
           uuid: newUid
         });
       });
+
+      const eventEmitter = new NativeEventEmitter(NativeModules.AndroidBLEAdvertiserModule);
+      eventEmitter.addListener('onDeviceFound', (event) => {
+        const currentDevs = [...this.state.devicesFound];
+        for(let i=0; i< event.serviceUuids.length; i++){
+            if(currentDevs.indexOf(event.serviceUuids[i]) === -1) { // notice that there is a parenthesis after `id`.
+               currentDevs.push(event.serviceUuids[i]);
+            }
+        }
+        this.setState({
+            devicesFound: currentDevs
+        });
+        console.log(event) // "someValue"
+      });
     }
 
     start() {
-      /*
       console.log(this.state.uuid, "Starting Advertising");
       AndroidBLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
       .then((sucess) => {
@@ -69,7 +85,7 @@ class Entry extends Component {
       }).catch(error => {
         console.log(this.state.uuid, "Adv Error", error); 
       });
-      */
+      
       console.log(this.state.uuid, "Starting Scanner");
       AndroidBLEAdvertiserModule.scan([12,23,56], {})
       .then((sucess) => {
@@ -84,7 +100,6 @@ class Entry extends Component {
     }
 
     stop(){
-      /*
       console.log(this.state.uuid, "Stopping Broadcast");
       AndroidBLEAdvertiserModule.stopBroadcast()
         .then((sucess) => {
@@ -96,7 +111,6 @@ class Entry extends Component {
       this.setState({
         isLogging: false,
       });
-      */
 
       console.log(this.state.uuid, "Stopping Scanning");
       AndroidBLEAdvertiserModule.stopScan()
@@ -111,6 +125,10 @@ class Entry extends Component {
       });
     }
 
+    onClearArray = () => {
+      this.setState({ devicesFound: [] });
+    };
+
     render() {
       return (
           <>
@@ -119,12 +137,6 @@ class Entry extends Component {
               <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
                 style={styles.scrollView}>
-                <Header />
-                {global.HermesInternal == null ? null : (
-                  <View style={styles.engine}>
-                    <Text style={styles.footer}>Engine: Hermes</Text>
-                  </View>
-                )}
                 <View style={styles.body}>
                   <View style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>Broadcasting Demo</Text>
@@ -150,6 +162,21 @@ class Entry extends Component {
                     </TouchableOpacity>
                     )}
                   </View>
+                  <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Devices Found</Text>
+                    <FlatList
+                        data={ this.state.devicesFound }
+                        renderItem={({item}) => <Text style={styles.itemPastConnections}>{item}</Text>}
+                        />
+                  </View>
+
+                   <TouchableOpacity
+                      onPress={this.onClearArray}
+                      style={styles.startLoggingButtonTouchable}>
+                      <Text style={styles.startLoggingButtonText}>
+                        Clear Devices
+                      </Text>
+                    </TouchableOpacity>
                 </View>
               </ScrollView>
             </SafeAreaView>
@@ -226,6 +253,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     textAlign: 'center',
     color: '#ffffff',
+  },
+  listPastConnections: {
+      width: "80%",
+      height: 200
+  },
+  itemPastConnections: {
+      padding: 3
   },
 });
 
