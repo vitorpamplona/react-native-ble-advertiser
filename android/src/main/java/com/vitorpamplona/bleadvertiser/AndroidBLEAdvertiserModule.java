@@ -31,6 +31,10 @@ import android.content.IntentFilter;
 import android.os.ParcelUuid;
 import android.os.Build;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Thread;
@@ -237,9 +241,30 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
 		@Override
 		public void onScanResult(int callbackType, ScanResult result) {
             Log.w("BLEAdvertiserModule", "Scanned: " + result.toString());
-            if (result.getScanRecord().getServiceUuids()!=null && result.getScanRecord().getServiceUuids().size() > 0) {
-                Log.w("BLEAdvertiserModule", "Scanned: " + result.getScanRecord().getServiceUuids().get(0).toString());
+
+            WritableMap params = Arguments.createMap();
+            WritableArray paramsUUID = Arguments.createArray();
+
+            if (result.getScanRecord().getServiceUuids()!=null) {
+                for (ParcelUuid uuid : result.getScanRecord().getServiceUuids()) {
+                    paramsUUID.pushString(uuid.toString());
+                }
             }
+
+            params.putArray("serviceUuids", paramsUUID);
+            params.putInt("rssi", result.getRssi());
+
+            if (result.getScanRecord() != null) {
+                params.putInt("txPower", result.getScanRecord().getTxPowerLevel());
+                params.putString("deviceName", result.getScanRecord().getDeviceName());
+                params.putInt("advFlags", result.getScanRecord().getAdvertiseFlags());
+            }
+            
+            if (result.getDevice() != null) {
+                params.putString("deviceAddress", result.getDevice().getAddress());
+            }
+
+            sendEvent("onDeviceFound", params);
 		}
 
 		@Override
@@ -360,32 +385,38 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        final String action = intent.getAction();
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
 
-        if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-            final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                                                 BluetoothAdapter.ERROR);
-            
-            Log.d(TAG, String.valueOf(state));
-            switch (state) {
-            case BluetoothAdapter.STATE_OFF:
-                mObservedState = false;
-                break;
-            case BluetoothAdapter.STATE_TURNING_OFF:
-                mObservedState = false;
-                break;
-            case BluetoothAdapter.STATE_ON:
-                mObservedState = true;
-                break;
-            case BluetoothAdapter.STATE_TURNING_ON:
-                mObservedState = true;
-                break;
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
+                                                    BluetoothAdapter.ERROR);
+                
+                Log.d(TAG, String.valueOf(state));
+                switch (state) {
+                case BluetoothAdapter.STATE_OFF:
+                    mObservedState = false;
+                    break;
+                case BluetoothAdapter.STATE_TURNING_OFF:
+                    mObservedState = false;
+                    break;
+                case BluetoothAdapter.STATE_ON:
+                    mObservedState = true;
+                    break;
+                case BluetoothAdapter.STATE_TURNING_ON:
+                    mObservedState = true;
+                    break;
+                }
             }
         }
+    };
+
+    private void sendEvent(String eventName, WritableMap params) {
+        getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(eventName, params);
     }
-};
 
     // @Override
     // public void onCreate() {
