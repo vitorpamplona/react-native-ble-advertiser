@@ -6,20 +6,22 @@ Bluetooth Advertiser for React Native.
 RN 0.60+
 
 ## Supported Platforms
-- Android (API 23+)
+- Android (API 21+)
 
 ## Install
 
-1. ```npm install react-native-ble-advertiser --save```
+```bash
+npm install react-native-ble-advertiser --save
+```
 
-##### Android
+### Setting up the Android Project
 
 1. In build.gradle of app module make sure that min SDK version is at least 23:
 ```groovy
 android {
     ...
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 21
         ...       
 ```
 
@@ -29,10 +31,12 @@ android {
     ...
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 ````
 
 ## Example
+
+### Advertiser
 
 Import the module
 
@@ -40,12 +44,64 @@ Import the module
 import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
 ```
 
-Define your company ID and broadcast your UUID with additional data. 
+Define your company ID and broadcast your UUID with additional data. Start: 
 
 ```js
-AndroidBLEAdvertiserModule.setCompanyId(<0x00>); // Your Company's Code
-AndroidBLEAdvertiserModule.broadcastPacket(<UUID>, []) // Your UUID and additional data. 
-.then((sucess) => {
-    console.log("Sucessful", sucess);
+AndroidBLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
+AndroidBLEAdvertiserModule.broadcast(UUID, [ManufacturerData]) // Your UUID and additional manufacturer data. 
+.then((success) => {
+    console.log("Successful", success);
 }).catch(error => console.log(error));
+```
+
+Stop broadcasting
+
+```js
+AndroidBLEAdvertiserModule.stopBroadcast()
+.then((success) => {
+    console.log("Stop Broadcast Successful", success);
+}).catch(error => {
+    console.log("Stop Broadcast Error", error); 
+});
+```
+
+### Scanner
+
+Import the modules
+
+```js
+import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
+import { NativeEventEmitter, NativeModules } from 'react-native';
+```
+
+Define your company ID and additional data (Scanner fitlers inbound based on these). 
+
+```js
+AndroidBLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
+AndroidBLEAdvertiserModule.scan([ManufacturerData], {}) // manufacturer data and options
+.then((success) => {
+    console.log("Scan Successful", success);
+}).catch(error => {
+    console.log("Scan Error", error); 
+});
+```
+
+Collect devices through ReactNative events. 
+
+```js
+const eventEmitter = new NativeEventEmitter(NativeModules.AndroidBLEAdvertiserModule);
+eventEmitter.addListener('onDeviceFound', (event) => {
+    console.log(event) // "device data"
+});
+```
+
+Stop scannig. 
+
+```js
+AndroidBLEAdvertiserModule.stopScan()
+.then((sucess) => {
+    console.log(this.state.uuid, "Stop Scan Successful", sucess);
+}).catch(error => {
+    console.log(this.state.uuid, "Stop Scan Error", error); 
+});
 ```

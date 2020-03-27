@@ -81,7 +81,7 @@ class Entry extends Component {
       console.log(this.state.uuid, "Starting Advertising");
       AndroidBLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
       .then((sucess) => {
-        console.log(this.state.uuid, "Adv Sucessful", sucess);
+        console.log(this.state.uuid, "Adv Successful", sucess);
       }).catch(error => {
         console.log(this.state.uuid, "Adv Error", error); 
       });
@@ -89,7 +89,7 @@ class Entry extends Component {
       console.log(this.state.uuid, "Starting Scanner");
       AndroidBLEAdvertiserModule.scan([12,23,56], {})
       .then((sucess) => {
-        console.log(this.state.uuid, "Scan Sucessful", sucess);
+        console.log(this.state.uuid, "Scan Successful", sucess);
       }).catch(error => {
         console.log(this.state.uuid, "Scan Error", error); 
       });
@@ -103,9 +103,9 @@ class Entry extends Component {
       console.log(this.state.uuid, "Stopping Broadcast");
       AndroidBLEAdvertiserModule.stopBroadcast()
         .then((sucess) => {
-          console.log(this.state.uuid, "Stop Scan Sucessful For", sucess);
+          console.log(this.state.uuid, "Stop Broadcast Successful", sucess);
         }).catch(error => {
-          console.log(this.state.uuid, "Stop Scan Error for", error); 
+          console.log(this.state.uuid, "Stop Broadcast Error", error); 
         });
 
       this.setState({
@@ -115,9 +115,9 @@ class Entry extends Component {
       console.log(this.state.uuid, "Stopping Scanning");
       AndroidBLEAdvertiserModule.stopScan()
         .then((sucess) => {
-          console.log(this.state.uuid, "Stop Scan Sucessful For", sucess);
+          console.log(this.state.uuid, "Stop Scan Successful", sucess);
         }).catch(error => {
-          console.log(this.state.uuid, "Stop Scan Error for", error); 
+          console.log(this.state.uuid, "Stop Scan Error", error); 
         });
 
       this.setState({
