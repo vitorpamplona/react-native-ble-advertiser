@@ -1,6 +1,6 @@
 # react-native-ble-advertiser [![npm version](https://img.shields.io/npm/v/react-native-ble-advertiser.svg?style=flat)](https://www.npmjs.com/package/react-native-ble-advertiser) [![npm downloads](https://img.shields.io/npm/dm/react-native-ble-advertiser.svg?style=flat)](https://www.npmjs.com/package/react-native-ble-advertiser) [![GitHub issues](https://img.shields.io/github/issues/vitorpamplona/react-native-ble-advertiser.svg?style=flat)](https://github.com/vitorpamplona/react-native-ble-advertiser/issues)
 
-Bluetooth Advertiser for React Native. 
+Bluetooth Advertiser for React Native. (This is in a very early development, but super active. Please use with caution).
 
 ## Requirements
 RN 0.60+
