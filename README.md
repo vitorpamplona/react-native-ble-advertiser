@@ -8,6 +8,15 @@ RN 0.60+
 ## Supported Platforms
 - Android (API 21+)
 
+## Features / TO-DO List
+
+- [x] Android Advertiser (v0.0.2)
+- [x] Android Scanner (v0.0.6)
+- [ ] Android Background Service
+- [ ] iOS Advertiser
+- [ ] iOS Scanner
+- [ ] iOS Background Service
+
 ## Install
 
 ```bash
