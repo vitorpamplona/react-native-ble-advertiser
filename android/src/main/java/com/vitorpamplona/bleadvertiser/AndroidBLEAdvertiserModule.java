@@ -107,6 +107,11 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             return;
         } 
 
+        if (mObservedState != null && !mObservedState) {
+            Log.w("BLEAdvertiserModule", "Bluetooth disabled");
+            promise.reject("Bluetooth disabled");
+        }
+
         BluetoothLeAdvertiser tempAdvertiser;
         AdvertiseCallback tempCallback;
 
@@ -147,6 +152,11 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     public void stopBroadcast(final Promise promise) {
         Log.w("BLEAdvertiserModule", "Stop Broadcast call");
 
+        if (mObservedState != null && !mObservedState) {
+            Log.w("BLEAdvertiserModule", "Bluetooth disabled");
+            promise.reject("Bluetooth disabled");
+        }
+
         WritableArray promiseArray=Arguments.createArray();
 
         Set<String> keys = mAdvertiserList.keySet();
@@ -167,6 +177,11 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         if (mBluetoothAdapter == null) {
             promise.reject("Device does not support Bluetooth. Adapter is Null");
             return;
+        }
+
+        if (mObservedState != null && !mObservedState) {
+            Log.w("BLEAdvertiserModule", "Bluetooth disabled");
+            promise.reject("Bluetooth disabled");
         }
 
         if (mScannerCallback == null) {
@@ -202,6 +217,11 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             promise.reject("Device does not support Bluetooth. Adapter is Null");
             return;
         } 
+
+        if (mObservedState != null && !mObservedState) {
+            Log.w("BLEAdvertiserModule", "Bluetooth disabled");
+            promise.reject("Bluetooth disabled");
+        }
 
         if (mScanner != null) {
             mScanner.stopScan(mScannerCallback);
