@@ -57,21 +57,17 @@ Define your company ID and broadcast your UUID with additional data. Start:
 
 ```js
 AndroidBLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
-AndroidBLEAdvertiserModule.broadcast(UUID, [ManufacturerData]) // Your UUID and additional manufacturer data. 
-.then((success) => {
-    console.log("Successful", success);
-}).catch(error => console.log(error));
+AndroidBLEAdvertiserModule.broadcast(UUID, [ManufacturerData]) // The UUID you would like to advertise and additional manufacturer data. 
+    .then(success => console.log('Broadcasting Sucessful', success))
+    .catch(error => console.log('Broadcasting Error', error));
 ```
 
 Stop broadcasting
 
 ```js
 AndroidBLEAdvertiserModule.stopBroadcast()
-.then((success) => {
-    console.log("Stop Broadcast Successful", success);
-}).catch(error => {
-    console.log("Stop Broadcast Error", error); 
-});
+    .then(success => console.log("Stop Broadcast Successful", success))
+    .catch(error => console.log("Stop Broadcast Error", error));
 ```
 
 ### Scanner
@@ -88,11 +84,8 @@ Define your company ID and additional data (Scanner fitlers inbound based on the
 ```js
 AndroidBLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
 AndroidBLEAdvertiserModule.scan([ManufacturerData], {}) // manufacturer data and options
-.then((success) => {
-    console.log("Scan Successful", success);
-}).catch(error => {
-    console.log("Scan Error", error); 
-});
+    .then(success => console.log("Scan Successful", success))
+    .catch(error => console.log("Scan Error", error)); 
 ```
 
 Collect devices through ReactNative events. 
@@ -108,9 +101,7 @@ Stop scannig.
 
 ```js
 AndroidBLEAdvertiserModule.stopScan()
-.then((sucess) => {
-    console.log(this.state.uuid, "Stop Scan Successful", sucess);
-}).catch(error => {
-    console.log(this.state.uuid, "Stop Scan Error", error); 
-});
+    .then(success => console.log("Stop Scan Successful", success))
+    .catch(error => console.log("Stop Scan Error", error));
 ```
+
