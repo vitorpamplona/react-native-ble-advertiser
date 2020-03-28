@@ -105,3 +105,11 @@ AndroidBLEAdvertiserModule.stopScan()
     .catch(error => console.log("Stop Scan Error", error));
 ```
 
+### Bluetooth Status
+
+```js
+const eventEmitter = new NativeEventEmitter(NativeModules.AndroidBLEAdvertiserModule);
+onBTStatusChange = eventEmitter.addListener('onBTStatusChange', (enabled) => {
+    console.log("Bluetooth status: ", enabled);
+});
+```

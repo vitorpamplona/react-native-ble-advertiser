@@ -1,6 +1,6 @@
 {
     "name": "react-native-ble-advertiser",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "A react-native implementation for sending BLE advertisements",
     "main": "index.js",
     "scripts": {

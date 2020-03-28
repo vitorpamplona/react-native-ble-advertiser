@@ -429,12 +429,10 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
                     break;
                 }
 
+                WritableMap params = Arguments.createMap();
                 // Only send enabled when ready. Turning on and OFF are equal as disabled. 
-                if (BluetoothAdapter.STATE_ON) {
-                    sendEvent("onBTStatusChange", true);
-                } else {
-                    sendEvent("onBTStatusChange", false);
-                }
+                params.putBoolean("enabled", state == BluetoothAdapter.STATE_ON);
+                sendEvent("onBTStatusChange", params);
             }
         }
     };
