@@ -410,8 +410,8 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             final String action = intent.getAction();
 
             if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
-                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
-                                                    BluetoothAdapter.ERROR);
+                final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                final int prevState = intent.getIntExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, BluetoothAdapter.ERROR);
                 
                 Log.d(TAG, String.valueOf(state));
                 switch (state) {
@@ -429,10 +429,16 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
                     break;
                 }
 
-                WritableMap params = Arguments.createMap();
-                // Only send enabled when ready. Turning on and OFF are equal as disabled. 
-                params.putBoolean("enabled", state == BluetoothAdapter.STATE_ON);
-                sendEvent("onBTStatusChange", params);
+                // Only send enabled when fully ready. Turning on and Turning OFF are seen as disabled. 
+                if (state == BluetoothAdapter.STATE_ON && prevState != BluetoothAdapter.STATE_ON) {
+                    WritableMap params = Arguments.createMap();
+                    params.putBoolean("enabled", true);
+                    sendEvent("onBTStatusChange", params);
+                } else if (state != BluetoothAdapter.STATE_ON && prevState == BluetoothAdapter.STATE_ON ) {
+                    WritableMap params = Arguments.createMap();
+                    params.putBoolean("enabled", false);
+                    sendEvent("onBTStatusChange", params);
+                }
             }
         }
     };
