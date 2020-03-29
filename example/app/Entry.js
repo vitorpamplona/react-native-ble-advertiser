@@ -12,6 +12,7 @@ import {
   FlatList,
 } from 'react-native';
 
+import { Alert, Platform } from 'react-native';
 import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
@@ -37,6 +38,34 @@ export async function requestLocationPermission() {
     } else {
       console.log("location permission denied")
     }
+
+    const blueoothActive = await AndroidBLEAdvertiserModule.getAdapterState().then(result => {
+      console.log('[Bluetooth]', "isBTActive", result)
+      return result === "STATE_ON";
+    }).catch(error => { 
+      console.log('[Bluetooth]', "BT Not Enabled")
+      return false;
+    });
+
+    if (!blueoothActive) {
+      await Alert.alert(
+        'Private Kit requires bluetooth to be enabled',
+        'Would you like to enable Bluetooth?',
+        [
+          {
+            text: 'Yes',
+            onPress: () => AndroidBLEAdvertiserModule.enableAdapter(),
+          },
+          {
+            text: 'No',
+            onPress: () => console.log('No Pressed'),
+            style: 'cancel',
+          },
+        ],
+      )
+    }
+
+    console.log("BT Active?", blueoothActive);
   } catch (err) {
     console.warn(err)
   }
@@ -54,7 +83,7 @@ class Entry extends Component {
     componentDidMount(){
       requestLocationPermission();
       
-      AndroidBLEAdvertiserModule.setCompanyId(0xFF); // PrivateKit
+      AndroidBLEAdvertiserModule.setCompanyId(0xFF); 
       
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
