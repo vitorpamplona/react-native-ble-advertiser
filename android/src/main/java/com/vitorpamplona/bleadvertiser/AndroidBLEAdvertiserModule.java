@@ -351,10 +351,33 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        Log.d(TAG, "Here" + String.valueOf(mBluetoothAdapter.getState()));
+        Log.d(TAG, "GetAdapter State" + String.valueOf(mBluetoothAdapter.getState()));
+
+        switch (mBluetoothAdapter.getState()) {
+            case BluetoothAdapter.STATE_OFF:
+                promise.resolve("STATE_OFF"); break;
+            case BluetoothAdapter.STATE_TURNING_ON:
+                promise.resolve("STATE_TURNING_ON"); break;
+            case BluetoothAdapter.STATE_ON:
+                promise.resolve("STATE_ON"); break;
+            case BluetoothAdapter.STATE_TURNING_OFF:
+                promise.resolve("STATE_TURNING_OFF"); break;
+        }
+
         promise.resolve(String.valueOf(mBluetoothAdapter.getState()));
     }
-    
+
+    @ReactMethod
+    public void isActive(Promise promise) {
+        if (mBluetoothAdapter == null) {
+            Log.w("BLEAdvertiserModule", "Device does not support Bluetooth. Adapter is Null");
+            promise.resolve(false);
+            return;
+        }
+
+        Log.d(TAG, "GetAdapter State" + String.valueOf(mBluetoothAdapter.getState()));
+        promise.resolve(mBluetoothAdapter.getState() == BluetoothAdapter.STATE_ON); 
+    }
 
     private AdvertiseSettings buildAdvertiseSettings() {
         AdvertiseSettings.Builder settingsBuilder = new AdvertiseSettings.Builder();

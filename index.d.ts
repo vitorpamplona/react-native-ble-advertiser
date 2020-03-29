@@ -15,3 +15,4 @@ export function stopScan(): Promise<string>;
 export function enableAdapter(): void;
 export function disableAdapter(): void;
 export function getAdapterState(): Promise<string>;
+export function isActive(): Promise<boolean>;
