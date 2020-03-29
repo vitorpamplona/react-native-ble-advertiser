@@ -110,6 +110,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         if (mObservedState != null && !mObservedState) {
             Log.w("BLEAdvertiserModule", "Bluetooth disabled");
             promise.reject("Bluetooth disabled");
+            return;
         }
 
         BluetoothLeAdvertiser tempAdvertiser;
@@ -152,9 +153,16 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     public void stopBroadcast(final Promise promise) {
         Log.w("BLEAdvertiserModule", "Stop Broadcast call");
 
+        if (mBluetoothAdapter == null) {
+            Log.w("BLEAdvertiserModule", "mBluetoothAdapter unavailable");
+            promise.reject("mBluetoothAdapter unavailable");
+            return;
+        } 
+
         if (mObservedState != null && !mObservedState) {
             Log.w("BLEAdvertiserModule", "Bluetooth disabled");
             promise.reject("Bluetooth disabled");
+            return;
         }
 
         WritableArray promiseArray=Arguments.createArray();
@@ -182,6 +190,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         if (mObservedState != null && !mObservedState) {
             Log.w("BLEAdvertiserModule", "Bluetooth disabled");
             promise.reject("Bluetooth disabled");
+            return;
         }
 
         if (mScannerCallback == null) {
@@ -221,6 +230,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
         if (mObservedState != null && !mObservedState) {
             Log.w("BLEAdvertiserModule", "Bluetooth disabled");
             promise.reject("Bluetooth disabled");
+            return;
         }
 
         if (mScanner != null) {
