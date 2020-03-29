@@ -12,7 +12,7 @@
   "dependencies": {
     "react": "16.9.0",
     "react-native": "0.61.5",
-    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.5.tgz",
+    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.10.tgz",
     "react-native-uuid-generator": "^6.1.1"
   },
   "devDependencies": {
