@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Alert, Platform } from 'react-native';
-import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
+import BLEAdvertiserModule from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import {
@@ -29,7 +29,7 @@ export async function requestLocationPermission() {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
-        'title': 'Example App',
+        'title': 'BLE Avertiser Example App',
         'message': 'Example App access to your location '
       }
     )
@@ -39,7 +39,7 @@ export async function requestLocationPermission() {
       console.log("location permission denied")
     }
 
-    const blueoothActive = await AndroidBLEAdvertiserModule.getAdapterState().then(result => {
+    const blueoothActive = await BLEAdvertiserModule.getAdapterState().then(result => {
       console.log('[Bluetooth]', "isBTActive", result)
       return result === "STATE_ON";
     }).catch(error => { 
@@ -54,7 +54,7 @@ export async function requestLocationPermission() {
         [
           {
             text: 'Yes',
-            onPress: () => AndroidBLEAdvertiserModule.enableAdapter(),
+            onPress: () => BLEAdvertiserModule.enableAdapter(),
           },
           {
             text: 'No',
@@ -83,7 +83,7 @@ class Entry extends Component {
     componentDidMount(){
       requestLocationPermission();
       
-      AndroidBLEAdvertiserModule.setCompanyId(0xFF); 
+      BLEAdvertiserModule.setCompanyId(0xFF); 
       
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
@@ -91,7 +91,7 @@ class Entry extends Component {
         });
       });
 
-      const eventEmitter = new NativeEventEmitter(NativeModules.AndroidBLEAdvertiserModule);
+      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiserModule);
       eventEmitter.addListener('onDeviceFound', (event) => {
         const currentDevs = [...this.state.devicesFound];
         for(let i=0; i< event.serviceUuids.length; i++){
@@ -108,7 +108,7 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Starting Advertising");
-      AndroidBLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
+      BLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
       .then((sucess) => {
         console.log(this.state.uuid, "Adv Successful", sucess);
       }).catch(error => {
@@ -116,7 +116,7 @@ class Entry extends Component {
       });
       
       console.log(this.state.uuid, "Starting Scanner");
-      AndroidBLEAdvertiserModule.scan([12,23,56], {})
+      BLEAdvertiserModule.scan([12,23,56], {})
       .then((sucess) => {
         console.log(this.state.uuid, "Scan Successful", sucess);
       }).catch(error => {
@@ -130,7 +130,7 @@ class Entry extends Component {
 
     stop(){
       console.log(this.state.uuid, "Stopping Broadcast");
-      AndroidBLEAdvertiserModule.stopBroadcast()
+      BLEAdvertiserModule.stopBroadcast()
         .then((sucess) => {
           console.log(this.state.uuid, "Stop Broadcast Successful", sucess);
         }).catch(error => {
@@ -142,7 +142,7 @@ class Entry extends Component {
       });
 
       console.log(this.state.uuid, "Stopping Scanning");
-      AndroidBLEAdvertiserModule.stopScan()
+      BLEAdvertiserModule.stopScan()
         .then((sucess) => {
           console.log(this.state.uuid, "Stop Scan Successful", sucess);
         }).catch(error => {

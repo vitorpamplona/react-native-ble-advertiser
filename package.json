@@ -10,7 +10,6 @@
         "react",
         "react-component",
         "react-native",
-        "android",
         "ble",
         "bluetooth"
     ],
@@ -24,7 +23,7 @@
     "dependencies": {},
     "rnpm": {
         "android": {
-            "packageInstance": "new AndroidBLEAdvertiserPackage()"
+            "packageInstance": "new BLEAdvertiserPackage()"
         }
     }
 }

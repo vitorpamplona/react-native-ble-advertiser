@@ -42,9 +42,9 @@ import java.lang.Object;
 import java.util.Hashtable;
 import java.util.Set;
 
-public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
+public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
 
-    public static final String TAG = "AndroidBleAdvertiserXX0";
+    public static final String TAG = "BleAdvertiserXX0";
     private BluetoothAdapter mBluetoothAdapter;
     
     private static Hashtable<String, BluetoothLeAdvertiser> mAdvertiserList;
@@ -55,7 +55,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     private Boolean mObservedState;
 
     //Constructor
-    public AndroidBLEAdvertiserModule(ReactApplicationContext reactContext) {
+    public BLEAdvertiserModule(ReactApplicationContext reactContext) {
         super(reactContext);
 
         mAdvertiserList = new Hashtable<String, BluetoothLeAdvertiser>();
@@ -79,7 +79,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
     
     @Override
     public String getName() {
-        return "AndroidBLEAdvertiserModule";
+        return "BLEAdvertiserModule";
     }
 
     @ReactMethod
@@ -123,7 +123,7 @@ public class AndroidBLEAdvertiserModule extends ReactContextBaseJavaModule {
             tempAdvertiser.stopAdvertising(tempCallback);
         } else {
             tempAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
-            tempCallback = new AndroidBLEAdvertiserModule.SimpleAdvertiseCallback(promise);
+            tempCallback = new BLEAdvertiserModule.SimpleAdvertiseCallback(promise);
         }
          
         if (tempAdvertiser == null) {

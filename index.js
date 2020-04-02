@@ -1,8 +1,8 @@
 /**
- * @providesModule AndroidBLEAdvertiserModule
+ * @providesModule BLEAdvertiserModule
  */
 
 'use strict';
 
 import { NativeModules } from 'react-native';
-module.exports = NativeModules.AndroidBLEAdvertiserModule;
+module.exports = NativeModules.BLEAdvertiserModule;

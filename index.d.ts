@@ -1,4 +1,4 @@
-export as namespace AndroidBLEAdvertiserModule;
+export as namespace BLEAdvertiserModule;
 
 export interface ScanOptions {
     numberOfMatches?: number;
