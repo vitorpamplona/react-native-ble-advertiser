@@ -1,7 +1,7 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'example' do
+target 'BLEAdvertiserExample' do
   # Pods for example
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -34,20 +34,10 @@ target 'example' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'exampleTests' do
+  target 'BLEAdvertiserExampleTests' do
     inherit! :search_paths
     # Pods for testing
   end
 
   use_native_modules!
-end
-
-target 'example-tvOS' do
-  # Pods for example-tvOS
-
-  target 'example-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end

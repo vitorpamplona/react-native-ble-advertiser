@@ -165,7 +165,7 @@ class Entry extends Component {
           <>
             <StatusBar barStyle="dark-content" />
             <SafeAreaView>
-              <ScrollView
+              <View
                 contentInsetAdjustmentBehavior="automatic"
                 style={styles.scrollView}>
                 <View style={styles.body}>
@@ -209,7 +209,7 @@ class Entry extends Component {
                       </Text>
                     </TouchableOpacity>
                 </View>
-              </ScrollView>
+              </View>
             </SafeAreaView>
           </>
         );
