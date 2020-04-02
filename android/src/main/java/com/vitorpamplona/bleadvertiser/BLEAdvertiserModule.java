@@ -79,7 +79,7 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
     
     @Override
     public String getName() {
-        return "BLEAdvertiserModule";
+        return "BLEAdvertiser";
     }
 
     @ReactMethod

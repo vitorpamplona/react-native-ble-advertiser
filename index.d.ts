@@ -1,4 +1,4 @@
-export as namespace BLEAdvertiserModule;
+export as namespace BLEAdvertiser;
 
 export interface ScanOptions {
     numberOfMatches?: number;
