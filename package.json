@@ -20,10 +20,5 @@
     "peerDependencies": {
         "react-native": ">=0.50"
     },
-    "dependencies": {},
-    "rnpm": {
-        "android": {
-            "packageInstance": "new BLEAdvertiserPackage()"
-        }
-    }
+    "dependencies": {}
 }
