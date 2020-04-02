@@ -12,7 +12,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		AF8161748C3D9D1BA0855D00 /* libPods-BLEAdvertiserExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C36CB12DFB7A734529A21EE /* libPods-BLEAdvertiserExample.a */; };
+		4E1AECB7243674C000D987A1 /* libPods-BLEAdvertiserExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E1AECB6243674C000D987A1 /* libPods-BLEAdvertiserExample.a */; };
 		D0CACB8160C3FD7CFC0905A2 /* libPods-BLEAdvertiserExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B243FED6B1A12131C036444C /* libPods-BLEAdvertiserExampleTests.a */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +39,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BLEAdvertiserExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BLEAdvertiserExample/main.m; sourceTree = "<group>"; };
 		3C36CB12DFB7A734529A21EE /* libPods-BLEAdvertiserExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLEAdvertiserExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E1AECB6243674C000D987A1 /* libPods-BLEAdvertiserExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-BLEAdvertiserExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		57573D63BAE14F7C1E5662AF /* Pods-BLEAdvertiserExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6B6E2A8FAAECC94D17DB2D1A /* Pods-BLEAdvertiserExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.debug.xcconfig"; sourceTree = "<group>"; };
 		953DA8161A5D29D44E43C129 /* Pods-BLEAdvertiserExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.release.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.release.xcconfig"; sourceTree = "<group>"; };
@@ -61,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AF8161748C3D9D1BA0855D00 /* libPods-BLEAdvertiserExample.a in Frameworks */,
+				4E1AECB7243674C000D987A1 /* libPods-BLEAdvertiserExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +103,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4E1AECB6243674C000D987A1 /* libPods-BLEAdvertiserExample.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				3C36CB12DFB7A734529A21EE /* libPods-BLEAdvertiserExample.a */,
