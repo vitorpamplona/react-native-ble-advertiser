@@ -267,7 +267,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   startLoggingButtonText: {
-    fontFamily: 'OpenSans-Bold',
     fontSize: 14,
     lineHeight: 19,
     letterSpacing: 0,
@@ -283,7 +282,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stopLoggingButtonText: {
-    fontFamily: 'OpenSans-Bold',
     fontSize: 14,
     lineHeight: 19,
     letterSpacing: 0,
