@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Alert, Platform } from 'react-native';
-import BLEAdvertiserModule from 'react-native-ble-advertiser'
+import BLEAdvertiser from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import {
@@ -41,7 +41,7 @@ export async function requestLocationPermission() {
       }
     }
 
-    const blueoothActive = await BLEAdvertiserModule.getAdapterState().then(result => {
+    const blueoothActive = await BLEAdvertiser.getAdapterState().then(result => {
       console.log('[Bluetooth]', "isBTActive", result)
       return result === "STATE_ON";
     }).catch(error => { 
@@ -56,7 +56,7 @@ export async function requestLocationPermission() {
         [
           {
             text: 'Yes',
-            onPress: () => BLEAdvertiserModule.enableAdapter(),
+            onPress: () => BLEAdvertiser.enableAdapter(),
           },
           {
             text: 'No',
@@ -85,7 +85,8 @@ class Entry extends Component {
     componentDidMount(){
       requestLocationPermission();
       
-      BLEAdvertiserModule.setCompanyId(0xFF); 
+      console.log("BLE Advertiser", BLEAdvertiser);
+      BLEAdvertiser.setCompanyId(0xFF); 
       
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
@@ -93,7 +94,11 @@ class Entry extends Component {
         });
       });
 
-      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiserModule);
+      const eventEmitter = Platform.select({
+        ios: new NativeEventEmitter(NativeModules.BLEAdvertiserEmitter),
+        android: new NativeEventEmitter(NativeModules.BLEAdvertiser),
+      });
+
       eventEmitter.addListener('onDeviceFound', (event) => {
         const currentDevs = [...this.state.devicesFound];
         for(let i=0; i< event.serviceUuids.length; i++){
@@ -110,7 +115,7 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Starting Advertising");
-      BLEAdvertiserModule.broadcast(this.state.uuid, [12,23,56])
+      BLEAdvertiser.broadcast(this.state.uuid, [12,23,56])
       .then((sucess) => {
         console.log(this.state.uuid, "Adv Successful", sucess);
       }).catch(error => {
@@ -118,7 +123,7 @@ class Entry extends Component {
       });
       
       console.log(this.state.uuid, "Starting Scanner");
-      BLEAdvertiserModule.scan([12,23,56], {})
+      BLEAdvertiser.scan([12,23,56], {})
       .then((sucess) => {
         console.log(this.state.uuid, "Scan Successful", sucess);
       }).catch(error => {
@@ -132,7 +137,7 @@ class Entry extends Component {
 
     stop(){
       console.log(this.state.uuid, "Stopping Broadcast");
-      BLEAdvertiserModule.stopBroadcast()
+      BLEAdvertiser.stopBroadcast()
         .then((sucess) => {
           console.log(this.state.uuid, "Stop Broadcast Successful", sucess);
         }).catch(error => {
@@ -144,7 +149,7 @@ class Entry extends Component {
       });
 
       console.log(this.state.uuid, "Stopping Scanning");
-      BLEAdvertiserModule.stopScan()
+      BLEAdvertiser.stopScan()
         .then((sucess) => {
           console.log(this.state.uuid, "Stop Scan Successful", sucess);
         }).catch(error => {
