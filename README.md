@@ -50,14 +50,14 @@ android {
 Import the module
 
 ```js
-import BLEAdvertiserModule from 'react-native-ble-advertiser'
+import BLEAdvertiser from 'react-native-ble-advertiser'
 ```
 
 Define your company ID and broadcast your UUID with additional data. Start: 
 
 ```js
-BLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiserModule.broadcast(UUID, [ManufacturerData]) // The UUID you would like to advertise and additional manufacturer data. 
+BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
+BLEAdvertiser.broadcast(UUID, [ManufacturerData]) // The UUID you would like to advertise and additional manufacturer data. 
     .then(success => console.log('Broadcasting Sucessful', success))
     .catch(error => console.log('Broadcasting Error', error));
 ```
@@ -65,7 +65,7 @@ BLEAdvertiserModule.broadcast(UUID, [ManufacturerData]) // The UUID you would li
 Stop broadcasting
 
 ```js
-BLEAdvertiserModule.stopBroadcast()
+BLEAdvertiser.stopBroadcast()
     .then(success => console.log("Stop Broadcast Successful", success))
     .catch(error => console.log("Stop Broadcast Error", error));
 ```
@@ -75,15 +75,15 @@ BLEAdvertiserModule.stopBroadcast()
 Import the modules
 
 ```js
-import BLEAdvertiserModule from 'react-native-ble-advertiser'
+import BLEAdvertiser from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 ```
 
 Define your company ID and additional data (Scanner fitlers inbound based on these). 
 
 ```js
-BLEAdvertiserModule.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiserModule.scan([ManufacturerData], {}) // manufacturer data and options
+BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
+BLEAdvertiser.scan([ManufacturerData], {}) // manufacturer data and options
     .then(success => console.log("Scan Successful", success))
     .catch(error => console.log("Scan Error", error)); 
 ```
@@ -91,7 +91,7 @@ BLEAdvertiserModule.scan([ManufacturerData], {}) // manufacturer data and option
 Collect devices through ReactNative events. 
 
 ```js
-const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiserModule);
+const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
 eventEmitter.addListener('onDeviceFound', (event) => {
     console.log(event) // "device data"
 });
@@ -100,7 +100,7 @@ eventEmitter.addListener('onDeviceFound', (event) => {
 Stop scannig. 
 
 ```js
-BLEAdvertiserModule.stopScan()
+BLEAdvertiser.stopScan()
     .then(success => console.log("Stop Scan Successful", success))
     .catch(error => console.log("Stop Scan Error", error));
 ```
@@ -108,7 +108,7 @@ BLEAdvertiserModule.stopScan()
 ### Bluetooth Status
 
 ```js
-const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiserModule);
+const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
 onBTStatusChange = eventEmitter.addListener('onBTStatusChange', (enabled) => {
     console.log("Bluetooth status: ", enabled);
 });

@@ -1,5 +1,5 @@
 /**
- * @providesModule BLEAdvertiserModule
+ * @providesModule BLEAdvertiser
  */
 
 'use strict';
