@@ -20,5 +20,12 @@
     "peerDependencies": {
         "react-native": ">=0.50"
     },
-    "dependencies": {}
+    "dependencies": {},
+    "files": [
+        "android/",
+        "ios/",
+        "index.js",
+        "index.d.ts",
+        "react-native.config.js"
+      ]
 }
