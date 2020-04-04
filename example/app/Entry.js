@@ -144,10 +144,6 @@ class Entry extends Component {
           console.log(this.state.uuid, "Stop Broadcast Error", error); 
         });
 
-      this.setState({
-        isLogging: false,
-      });
-
       console.log(this.state.uuid, "Stopping Scanning");
       BLEAdvertiser.stopScan()
         .then((sucess) => {
