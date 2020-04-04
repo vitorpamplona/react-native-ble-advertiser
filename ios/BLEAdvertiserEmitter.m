@@ -1,7 +1,9 @@
 #import "BLEAdvertiserEmitter.h"
 
-@implementation ModuleWithEmitter
+@implementation BLEAdvertiserEmitter
   
+RCT_EXPORT_MODULE(BLEAdvertiserEmitter)
+
 - (NSArray<NSString *> *)supportedEvents {
     return @[@"onDeviceFound"];
 }
