@@ -20,22 +20,20 @@ RCT_EXPORT_METHOD(broadcast: (NSString *)uid payload:(NSArray *)payload
     resolve(@"Yay!");
 }
 
-RCT_EXPORT_METHOD(stopBroadcast: 
+RCT_EXPORT_METHOD(stopBroadcast:(RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject){
+    RCTLogInfo(@"stopBroadcast function called");
+    resolve(@"Yay!");
+}
+
+RCT_EXPORT_METHOD(scan: (NSArray *)payload options:(NSDictionary *)options 
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
     RCTLogInfo(@"stopBroadcast function called");
     resolve(@"Yay!");
 }
 
-RCT_EXPORT_METHOD(scan: payload:(NSArray *)payload  
-    resolve: (RCTPromiseResolveBlock)resolve
-    rejecter:(RCTPromiseRejectBlock)reject){
-    RCTLogInfo(@"stopBroadcast function called");
-    resolve(@"Yay!");
-}
-
-RCT_EXPORT_METHOD(stopScan: 
-    resolve: (RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(stopScan:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
     RCTLogInfo(@"stopScan function called");
     resolve(@"Yay!");
