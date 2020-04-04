@@ -13,8 +13,9 @@ import {
 } from 'react-native';
 
 import { Alert, Platform } from 'react-native';
-import BLEAdvertiser from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
+import BLEAdvertiser from 'react-native-ble-advertiser'
+
 
 import {
   Header,
@@ -86,8 +87,9 @@ class Entry extends Component {
       requestLocationPermission();
       
       console.log("BLE Advertiser", BLEAdvertiser);
+      console.log("BLE AdvertiserEmitter", NativeModules.BLEAdvertiserEmitter);
       BLEAdvertiser.setCompanyId(0xFF); 
-      
+    
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
           uuid: newUid
