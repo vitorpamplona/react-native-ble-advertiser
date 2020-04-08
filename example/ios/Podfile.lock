@@ -1,6 +1,4 @@
 PODS:
-  - BLEAdvertiser (1.0.0):
-    - React
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.62.1)
@@ -184,6 +182,8 @@ PODS:
     - React-cxxreact (= 0.62.1)
     - React-jsi (= 0.62.1)
   - React-jsinspector (0.62.1)
+  - react-native-ble-advertiser (0.0.10):
+    - React
   - react-native-uuid-generator (6.1.1):
     - React
   - React-RCTActionSheet (0.62.1):
@@ -248,7 +248,6 @@ PODS:
   - Yoga (1.14.0)
 
 DEPENDENCIES:
-  - BLEAdvertiser (from `../node_modules/react-native-ble-advertiser/ios`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -265,6 +264,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-ble-advertiser (from `../node_modules/react-native-ble-advertiser/ios`)
   - react-native-uuid-generator (from `../node_modules/react-native-uuid-generator`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -284,8 +284,6 @@ SPEC REPOS:
     - boost-for-react-native
 
 EXTERNAL SOURCES:
-  BLEAdvertiser:
-    :path: "../node_modules/react-native-ble-advertiser/ios"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -314,6 +312,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-ble-advertiser:
+    :path: "../node_modules/react-native-ble-advertiser/ios"
   react-native-uuid-generator:
     :path: "../node_modules/react-native-uuid-generator"
   React-RCTActionSheet:
@@ -340,7 +340,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  BLEAdvertiser: b9fc3705477719faf0d74dc64639d0b7bed823e9
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   FBLazyVector: 95ee3e58937a6052f86b0e32f142388c22fa22c5
@@ -356,6 +355,7 @@ SPEC CHECKSUMS:
   React-jsi: 600d8e42510c3254fd2abd702f4b9d3f598d8f52
   React-jsiexecutor: e9698dee4fd43ceb44832baf15d5745f455b0157
   React-jsinspector: f74a62727e5604119abd4a1eda52c0a12144bcd5
+  react-native-ble-advertiser: 87417874a5be720fdfcbdf7d096e07dd2529a617
   react-native-uuid-generator: 82ffa2a1cac94242ebed52c4dedc5044d3412717
   React-RCTActionSheet: af8f28dd82fec89b8fe29637b8c779829e016a88
   React-RCTAnimation: 0d21fff7c20fb8ee41de5f2ebb63221127febd96
