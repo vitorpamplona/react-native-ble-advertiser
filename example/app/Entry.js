@@ -12,10 +12,12 @@ import {
   FlatList,
 } from 'react-native';
 
+import Moment from 'moment';
+
 import { Alert, Platform } from 'react-native';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 import BLEAdvertiser from 'react-native-ble-advertiser'
-
+import update from 'immutability-helper';
 
 import {
   Header,
@@ -83,6 +85,33 @@ class Entry extends Component {
         }
     }
 
+    addDevice(_uuid, _name, _rssi, _date) {
+      let index = -1;
+      for(let i=0; i< this.state.devicesFound.length; i++){
+        if (this.state.devicesFound[i].uuid == _uuid) {
+          index = i;
+        }
+      }
+      if (index<0) {
+        let dev = {uuid:_uuid, name:_name, rssi:_rssi, start:_date, end:_date};
+        this.setState({
+          devicesFound: update(this.state.devicesFound, 
+            {$push: [dev]}
+          )
+        });
+      } else {
+        //let dev = this.state.devicesFound[index];
+        //const newList = this.state.devicesFound.splice(index, 1);
+        console.log('Updateing ' + index);
+        const itemIndex = index;
+        this.setState({
+          devicesFound: update(this.state.devicesFound, 
+            {[itemIndex]: {end: {$set: _date}}}
+          )
+        });
+      }
+    }
+
     componentDidMount(){
       requestLocationPermission();
       
@@ -102,16 +131,10 @@ class Entry extends Component {
       });
 
       eventEmitter.addListener('onDeviceFound', (event) => {
-        const currentDevs = [...this.state.devicesFound];
+        console.log('onDeviceFound', event);
         for(let i=0; i< event.serviceUuids.length; i++){
-            if(currentDevs.indexOf(event.serviceUuids[i]) === -1) { // notice that there is a parenthesis after `id`.
-               currentDevs.push(event.serviceUuids[i]);
-            }
+          this.addDevice(event.serviceUuids[i], event.deviceName, event.rssi, new Date)   
         }
-        this.setState({
-            devicesFound: currentDevs
-        });
-        console.log(event) // "someValue"
       });
     }
 
@@ -163,6 +186,14 @@ class Entry extends Component {
       this.setState({ devicesFound: [] });
     };
 
+    short(str) {
+      return str.substring(1, 6) + " ... " + str.substring(str.length-5, str.length); 
+    }
+
+    dateStr(dt) {
+      return Moment(dt).format('H:mm:SS');
+    }
+
     render() {
       return (
           <>
@@ -173,9 +204,8 @@ class Entry extends Component {
                 style={styles.scrollView}>
                 <View style={styles.body}>
                   <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Broadcasting Demo</Text>
-                    <Text style={styles.sectionDescription}>App is Broadcasting</Text>
-                    <Text style={styles.sectionDescription}><Text style={styles.highlight}>{ this.state.uuid }</Text></Text>
+                    <Text style={styles.sectionTitle}>BLE Advertiser Demo</Text>
+                    <Text style={styles.sectionDescription}>Broadcasting: <Text style={styles.highlight}>{ this.short(this.state.uuid) }</Text></Text>
                   </View>
                   <View style={styles.sectionContainer}>
                     {this.state.isLogging ? (
@@ -196,14 +226,15 @@ class Entry extends Component {
                     </TouchableOpacity>
                     )}
                   </View>
-                  <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>Devices Found</Text>
+                  <View style={styles.sectionContainerFlex}>
+                    <Text style={styles.sectionTitle}>Devices Around</Text>
                     <FlatList
                         data={ this.state.devicesFound }
-                        renderItem={({item}) => <Text style={styles.itemPastConnections}>{item}</Text>}
+                        renderItem={({item}) => <Text style={styles.itemPastConnections}>{this.dateStr(item.start)} to {this.dateStr(item.end)}: {this.short(item.uuid)} {item.rssi} {item.name}</Text>}
+                        keyExtractor={item => item.uuid}
                         />
                   </View>
-
+                  <View style={styles.sectionContainer}>
                    <TouchableOpacity
                       onPress={this.onClearArray}
                       style={styles.startLoggingButtonTouchable}>
@@ -211,6 +242,7 @@ class Entry extends Component {
                         Clear Devices
                       </Text>
                     </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </SafeAreaView>
@@ -229,20 +261,31 @@ const styles = StyleSheet.create({
   },
   body: {
     backgroundColor: Colors.white,
+    height: "100%",
+  },
+  sectionContainerFlex: {
+    flex: 1,
+    marginTop: 12,
+    marginBottom: 12,
+    paddingHorizontal: 24,
   },
   sectionContainer: {
-    marginTop: 32,
+    flex: 0,
+    marginTop: 12,
+    marginBottom: 12,
     paddingHorizontal: 24,
   },
   sectionTitle: {
     fontSize: 24,
+    marginBottom: 8,
     fontWeight: '600',
     color: Colors.black,
+    textAlign: 'center'
   },
   sectionDescription: {
-    marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
+    textAlign: 'center',
     color: Colors.dark,
   },
   highlight: {
@@ -291,7 +334,9 @@ const styles = StyleSheet.create({
       height: 200
   },
   itemPastConnections: {
-      padding: 3
+      padding: 3,
+      fontSize: 18,
+      fontWeight: '400',
   },
 });
 
