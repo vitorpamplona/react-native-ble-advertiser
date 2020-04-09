@@ -248,6 +248,8 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         if (options != null) {
             if (options.hasKey("scanMode")) {
                 scanSettingsBuilder.setScanMode(options.getInt("scanMode"));
+            } else {
+                scanSettingsBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -382,7 +384,7 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
     private AdvertiseSettings buildAdvertiseSettings() {
         AdvertiseSettings.Builder settingsBuilder = new AdvertiseSettings.Builder();
         settingsBuilder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
-        settingsBuilder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH);
+        settingsBuilder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_ULTRA_LOW);
         settingsBuilder.setConnectable(true);
         return settingsBuilder.build();
     }
