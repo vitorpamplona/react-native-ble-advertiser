@@ -110,7 +110,7 @@ class Entry extends Component {
         const itemIndex = index;
         this.setState({
           devicesFound: update(this.state.devicesFound, 
-            {[itemIndex]: {end: {$set: _date}}}
+            {[itemIndex]: {end: {$set: _date}, rssi: {$set: _rssi || this.state.devicesFound[itemIndex].rssi }}}
           )
         });
       }
