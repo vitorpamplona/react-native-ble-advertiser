@@ -85,6 +85,11 @@ class Entry extends Component {
         }
     }
 
+    isValidUUID(uuid) {
+      if (!uuid)return false;
+      return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(uuid);
+    }
+
     addDevice(_uuid, _name, _rssi, _date) {
       let index = -1;
       for(let i=0; i< this.state.devicesFound.length; i++){
@@ -130,8 +135,11 @@ class Entry extends Component {
 
       eventEmitter.addListener('onDeviceFound', (event) => {
         console.log('onDeviceFound', event);
-        for(let i=0; i< event.serviceUuids.length; i++){
-          this.addDevice(event.serviceUuids[i], event.deviceName, event.rssi, new Date)   
+        if (event.serviceUuids) {
+          for(let i=0; i< event.serviceUuids.length; i++){
+            if (this.isValidUUID(event.serviceUuids[i]))
+              this.addDevice(event.serviceUuids[i], event.deviceName, event.rssi, new Date())   
+          }
         }
       });
     }
@@ -188,75 +196,69 @@ class Entry extends Component {
       return str.substring(1, 6) + " ... " + str.substring(str.length-5, str.length); 
     }
 
+    dateDiffSecs(start, end) {
+      return Math.floor((end.getTime() - start.getTime())/1000);
+    }
+
     dateStr(dt) {
-      return Moment(dt).format('H:mm:SS');
+      return Moment(dt).format('H:mm');
     }
 
     render() {
       return (
-          <>
-            <StatusBar barStyle="dark-content" />
-            <SafeAreaView>
-              <View
-                contentInsetAdjustmentBehavior="automatic"
-                style={styles.scrollView}>
-                <View style={styles.body}>
-                  <View style={styles.sectionContainer}>
-                    <Text style={styles.sectionTitle}>BLE Advertiser Demo</Text>
-                    <Text style={styles.sectionDescription}>Broadcasting: <Text style={styles.highlight}>{ this.short(this.state.uuid) }</Text></Text>
-                  </View>
-                  <View style={styles.sectionContainer}>
-                    {this.state.isLogging ? (
-                    <TouchableOpacity
-                      onPress={() => this.stop()}
-                      style={styles.stopLoggingButtonTouchable}>
-                      <Text style={styles.stopLoggingButtonText}>
-                        Stop
-                      </Text>
-                    </TouchableOpacity>
-                     ) : (
-                    <TouchableOpacity
-                      onPress={() => this.start()}
-                      style={styles.startLoggingButtonTouchable}>
-                      <Text style={styles.startLoggingButtonText}>
-                        Start
-                      </Text>
-                    </TouchableOpacity>
-                    )}
-                  </View>
-                  <View style={styles.sectionContainerFlex}>
-                    <Text style={styles.sectionTitle}>Devices Around</Text>
-                    <FlatList
-                        data={ this.state.devicesFound }
-                        renderItem={({item}) => <Text style={styles.itemPastConnections}>{this.dateStr(item.start)} to {this.dateStr(item.end)}: {this.short(item.uuid)} {item.rssi} {item.name}</Text>}
-                        keyExtractor={item => item.uuid}
-                        />
-                  </View>
-                  <View style={styles.sectionContainer}>
-                   <TouchableOpacity
-                      onPress={this.onClearArray}
-                      style={styles.startLoggingButtonTouchable}>
-                      <Text style={styles.startLoggingButtonText}>
-                        Clear Devices
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </SafeAreaView>
-          </>
-        );
+        <SafeAreaView>
+          <View style={styles.body}>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>BLE Advertiser Demo</Text>
+              <Text style={styles.sectionDescription}>Broadcasting: <Text style={styles.highlight}>{ this.short(this.state.uuid) }</Text></Text>
+            </View>
+
+            <View style={styles.sectionContainer}>
+              {this.state.isLogging ? (
+              <TouchableOpacity
+                onPress={() => this.stop()}
+                style={styles.stopLoggingButtonTouchable}>
+                <Text style={styles.stopLoggingButtonText}>
+                  Stop
+                </Text>
+              </TouchableOpacity>
+                ) : (
+              <TouchableOpacity
+                onPress={() => this.start()}
+                style={styles.startLoggingButtonTouchable}>
+                <Text style={styles.startLoggingButtonText}>
+                  Start
+                </Text>
+              </TouchableOpacity>
+              )}
+            </View>
+
+            <View style={styles.sectionContainerFlex}>
+              <Text style={styles.sectionTitle}>Devices Around</Text>
+              <FlatList
+                  data={ this.state.devicesFound }
+                  renderItem={({item}) => <Text style={styles.itemPastConnections}>{this.dateStr(item.start)} ({this.dateDiffSecs(item.start, item.end)}s): {this.short(item.uuid)} {item.rssi} {item.name}</Text>}
+                  keyExtractor={item => item.uuid}
+                  />
+            </View>
+
+            <View style={styles.sectionContainer}>
+              <TouchableOpacity
+                onPress={this.onClearArray}
+                style={styles.startLoggingButtonTouchable}>
+                <Text style={styles.startLoggingButtonText}>
+                  Clear Devices
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+          </View>
+        </SafeAreaView>
+      );
     }
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
   body: {
     backgroundColor: Colors.white,
     height: "100%",
