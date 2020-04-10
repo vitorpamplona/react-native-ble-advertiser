@@ -1,5 +1,4 @@
 #import "BLEAdvertiser.h"
-#import "BLEAdvertiserEmitter.h"
 @import CoreBluetooth;
 
 @implementation BLEAdvertiser
@@ -10,7 +9,12 @@
 {
     return dispatch_get_main_queue();
 }
+
 RCT_EXPORT_MODULE(BLEAdvertiser)
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"onDeviceFound"];
+}
 
 RCT_EXPORT_METHOD(setCompanyId: (nonnull NSNumber *)companyId){
     RCTLogInfo(@"setCompanyId function called %@", companyId);

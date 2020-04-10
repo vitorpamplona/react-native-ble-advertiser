@@ -102,7 +102,6 @@ class Entry extends Component {
       } else {
         //let dev = this.state.devicesFound[index];
         //const newList = this.state.devicesFound.splice(index, 1);
-        console.log('Updateing ' + index);
         const itemIndex = index;
         this.setState({
           devicesFound: update(this.state.devicesFound, 
@@ -116,7 +115,6 @@ class Entry extends Component {
       requestLocationPermission();
       
       console.log("BLE Advertiser", BLEAdvertiser);
-      console.log("BLE AdvertiserEmitter", NativeModules.BLEAdvertiserEmitter);
       BLEAdvertiser.setCompanyId(0xFF); 
     
       UUIDGenerator.getRandomUUID((newUid) => {
@@ -126,7 +124,7 @@ class Entry extends Component {
       });
 
       const eventEmitter = Platform.select({
-        ios: new NativeEventEmitter(NativeModules.BLEAdvertiserEmitter),
+        ios: new NativeEventEmitter(NativeModules.BLEAdvertiser),
         android: new NativeEventEmitter(NativeModules.BLEAdvertiser),
       });
 
