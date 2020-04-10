@@ -125,7 +125,9 @@ RCT_EXPORT_METHOD(isActive:
         }
     }
 
-    params[@"serviceUuids"] = paramsUUID; 
+    RSSI = RSSI && RSSI.intValue < 127 ? RSSI : nil;
+
+    params[@"serviceUuids"] = paramsUUID;
     params[@"rssi"] = RSSI;
     params[@"deviceName"] = [peripheral name];
     params[@"deviceAddress"] = [peripheral identifier];
