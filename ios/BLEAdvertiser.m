@@ -191,25 +191,5 @@ RCT_EXPORT_METHOD(isActive:
 }
 
 
-/*
-export function setCompanyId(companyId: number): void;
-export function broadcast(uid: String, payload: number[]): Promise<string>;
-export function stopBroadcast(): Promise<string>;
-export function scan(payload: number[], options?: ScanOptions): Promise<string>;
-export function stopScan(): Promise<string>;
-export function enableAdapter(): void;
-export function disableAdapter(): void;
-export function getAdapterState(): Promise<string>;
-export function isActive(): Promise<boolean>;
-*/
-/*
-string (NSString)
-number (NSInteger, float, double, CGFloat, NSNumber)
-boolean (BOOL, NSNumber)
-array (NSArray) of any types from this list
-object (NSDictionary) with string keys and values of any type from this list
-function (RCTResponseSenderBlock)
-*/
-
 @end
   
