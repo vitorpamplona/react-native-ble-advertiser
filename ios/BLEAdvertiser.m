@@ -53,7 +53,7 @@ RCT_EXPORT_METHOD(scan: (NSArray *)payload options:(NSDictionary *)options
     rejecter:(RCTPromiseRejectBlock)reject){
     RCTLogInfo(@"stopBroadcast function called");
     
-    [centralManager scanForPeripheralsWithServices:nil options:nil];
+    [centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:[NSNumber numberWithBool:NO]}];
     
     resolve(@"Yay! Central Manager Created");
 }
@@ -92,6 +92,46 @@ RCT_EXPORT_METHOD(isActive:
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
     NSString *peripheralName = [peripheral name];
     RCTLogInfo(@"Found: %@", peripheralName);
+    RCTLogInfo(@"Found: %@", [peripheral services]);
+
+    NSArray *keys = [advertisementData allKeys];
+    for (int i = 0; i < [keys count]; ++i) {
+        id key = [keys objectAtIndex: i];
+        NSString *keyName = (NSString *) key;
+        NSObject *value = [advertisementData objectForKey: key];
+        if ([value isKindOfClass: [NSArray class]]) {
+            printf("   key: %s\n", [keyName cStringUsingEncoding: NSUTF8StringEncoding]);
+            NSArray *values = (NSArray *) value;
+            for (int j = 0; j < [values count]; ++j) {
+                NSObject *aValue = [values objectAtIndex: j];
+                printf("       %s\n", [[aValue description] cStringUsingEncoding: NSUTF8StringEncoding]);
+                printf("       is NSData: %d\n", [aValue isKindOfClass: [NSData class]]);
+            }
+        } else {
+            const char *valueString = [[value description] cStringUsingEncoding: NSUTF8StringEncoding];
+            printf("   key: %s, value: %s\n", [keyName cStringUsingEncoding: NSUTF8StringEncoding], valueString);
+        }
+    }
+
+    NSMutableDictionary *params =  [[NSMutableDictionary alloc] initWithCapacity:1];      
+    NSMutableArray *paramsUUID = [[NSMutableArray alloc] init];
+
+    NSObject *kCBAdvDataServiceUUIDs = [advertisementData objectForKey: @"kCBAdvDataServiceUUIDs"];
+    if ([kCBAdvDataServiceUUIDs isKindOfClass:[NSArray class]]) {
+        NSArray *uuids = (NSArray *) kCBAdvDataServiceUUIDs;
+        for (int j = 0; j < [uuids count]; ++j) {
+            NSObject *aValue = [uuids objectAtIndex: j];
+            [paramsUUID addObject:[aValue description]];
+        }
+    }
+
+    params[@"serviceUuids"] = paramsUUID; 
+    params[@"rssi"] = RSSI;
+    params[@"deviceName"] = [peripheral name];
+    params[@"deviceAddress"] = [peripheral identifier];
+    params[@"txPower"] = [advertisementData objectForKey: @"kCBAdvDataTxPowerLevel"];
+    
+    [self sendEventWithName:@"onDeviceFound" body:params];
 }
 
 -(void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
