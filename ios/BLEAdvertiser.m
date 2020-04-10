@@ -53,7 +53,7 @@ RCT_EXPORT_METHOD(scan: (NSArray *)payload options:(NSDictionary *)options
     rejecter:(RCTPromiseRejectBlock)reject){
     RCTLogInfo(@"stopBroadcast function called");
     
-    [centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:[NSNumber numberWithBool:NO]}];
+    [centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:[NSNumber numberWithBool:YES]}];
     
     resolve(@"Yay! Central Manager Created");
 }
