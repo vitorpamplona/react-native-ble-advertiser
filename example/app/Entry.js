@@ -193,7 +193,7 @@ class Entry extends Component {
     };
 
     short(str) {
-      return str.substring(1, 6) + " ... " + str.substring(str.length-5, str.length); 
+      return str.substring(1, 5) + " ... " + str.substring(str.length-4, str.length); 
     }
 
     dateDiffSecs(start, end) {
