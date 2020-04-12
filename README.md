@@ -1,6 +1,6 @@
 # react-native-ble-advertiser [![npm version](https://img.shields.io/npm/v/react-native-ble-advertiser.svg?style=flat)](https://www.npmjs.com/package/react-native-ble-advertiser) [![npm downloads](https://img.shields.io/npm/dm/react-native-ble-advertiser.svg?style=flat)](https://www.npmjs.com/package/react-native-ble-advertiser) [![GitHub issues](https://img.shields.io/github/issues/vitorpamplona/react-native-ble-advertiser.svg?style=flat)](https://github.com/vitorpamplona/react-native-ble-advertiser/issues)
 
-Bluetooth Advertiser for React Native. (This is in a very early development, but super active. Please use with caution).
+Bluetooth Advertiser & Scanner for React Native. This is in a very early development focused in contact tracing applications. Please use with caution.
 
 ## Requirements
 RN 0.60+
@@ -13,8 +13,8 @@ RN 0.60+
 - [x] Android Advertiser (v0.0.2)
 - [x] Android Scanner (v0.0.6)
 - [ ] Android Background Service
-- [ ] iOS Advertiser
-- [ ] iOS Scanner
+- [ ] iOS Advertiser (v0.0.11)
+- [x] iOS Scanner
 - [ ] iOS Background Service
 
 ## Install
@@ -47,6 +47,10 @@ android {
 
 On the plist file, include: 
 ```xml
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We log your location to allow comparisons with other user's locations in a privacy-preserving way.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>We broadcast and scan for bluetooth signals in a way to track all phones nearby you in a privacy-preserving way.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
