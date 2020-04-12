@@ -25,16 +25,7 @@ npm install react-native-ble-advertiser --save
 
 ### Setting up the Android Project
 
-1. In build.gradle of app module make sure that min SDK version is at least 23:
-```groovy
-android {
-    ...
-    defaultConfig {
-        minSdkVersion 21
-        ...       
-```
-
-2. In AndroidManifest.xml, add Bluetooth permissions and update <uses-sdk/>:
+In AndroidManifest.xml, add Bluetooth permissions and update <uses-sdk/>:
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     ...
@@ -45,7 +36,7 @@ android {
 
 ### Setting up the iOS Project
 
-On the plist file, include: 
+On your plist file, include: 
 ```xml
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We log your location to allow comparisons with other user's locations in a privacy-preserving way.</string>
@@ -64,7 +55,7 @@ On the plist file, include:
 	</array>
 ```
 
-## Example
+## Usage
 
 ### Advertiser
 
@@ -126,7 +117,7 @@ BLEAdvertiser.stopScan()
     .catch(error => console.log("Stop Scan Error", error));
 ```
 
-### Bluetooth Status
+## Bluetooth Status
 
 ```js
 const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
