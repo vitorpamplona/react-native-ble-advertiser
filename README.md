@@ -13,8 +13,8 @@ RN 0.60+
 - [x] Android Advertiser (v0.0.2)
 - [x] Android Scanner (v0.0.6)
 - [ ] Android Background Service
-- [x] iOS Advertiser (v0.0.11)
-- [x] iOS Scanner
+- [x] iOS Advertiser (v0.0.10)
+- [x] iOS Scanner (v0.0.11)
 - [ ] iOS Background Service
 
 ## Install

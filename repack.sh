@@ -1,6 +1,6 @@
 npm pack
 cd example
-npm i ../react-native-ble-advertiser-0.0.10.tgz
+npm i ../react-native-ble-advertiser-0.0.11.tgz
 
 if [ $1 = "android" ]
 then
