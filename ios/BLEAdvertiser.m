@@ -32,7 +32,9 @@ RCT_EXPORT_METHOD(broadcast: (NSString *)uid payload:(NSArray *)payload
     //CLBeaconRegion *beaconRegion = [[CLBeaconRegion alloc] initWithProximityUUID:proximityUUID major:1 minor:1 identifier:REGION_ID];
     //NSDictionary *advertisingData = [beaconRegion peripheralDataWithMeasuredPower:nil];
     
-    NSDictionary *advertisingData = @{CBAdvertisementDataLocalNameKey : @"PrivateKit", CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:uid]]};
+    NSDictionary *advertisingData = @{
+        CBAdvertisementDataManufacturerDataKey : payload,
+        CBAdvertisementDataServiceUUIDsKey : @[[CBUUID UUIDWithString:uid]]};
 
     [peripheralManager startAdvertising:advertisingData];
 
