@@ -214,7 +214,7 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         ScanSettings scanSettings = buildScanSettings(options);
     
         List<ScanFilter> filters = new ArrayList<>();
-        filters.add(new ScanFilter.Builder().setManufacturerData(companyId, toByteArray(manufacturerPayload)).build());
+        //filters.add(new ScanFilter.Builder().setManufacturerData(companyId, toByteArray(manufacturerPayload)).build());
         
         mScanner.startScan(filters, scanSettings, mScannerCallback);
         promise.resolve("Scanner started");
