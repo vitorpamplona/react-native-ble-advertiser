@@ -16,6 +16,7 @@
     "author": "Vitor Pamplona <vitor@vitorpamplona.com> based on Will Dimmit's design on GitHub",
     "license": "MIT",
     "repository": "https://github.com/vitorpamplona/react-native-ble-advertiser",
+    "homepage": "https://github.com/vitorpamplona/react-native-ble-advertiser",
     "bugs": "https://github.com/vitorpamplona/react-native-ble-advertiser/issues",
     "peerDependencies": {
         "react-native": ">=0.50"
