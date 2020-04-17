@@ -1,15 +1,34 @@
-npm pack
-cd example
-npm i ../react-native-ble-advertiser-0.0.13.tgz
+#! /bin/sh 
 
-if [ $1 = "android" ]
-then
-    npx react-native run-android
-else
-    cd ios
-    pod install
-    cd ..
-    npx react-native run-ios
-fi
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+NPMFILE="../react-native-ble-advertiser-$PACKAGE_VERSION.tgz"
+
+echo Packing $PACKAGE_VERSION into $NPMFILE
+
+npm pack
+
+echo Installing new Lib on Example app
+
+cd example
+npm i $NPMFILE
+cd ios
+pod install
+cd ..
+
+if [ -z "$1" ] then
+    echo Running on "$1"
+    case "$1" in
+        "android") npx react-native run-android
+        ;;
+        "ios") npx react-native run-ios --device
+        ;;
+    esac
+fi 
 
 cd ..
