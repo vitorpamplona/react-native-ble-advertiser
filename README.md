@@ -69,7 +69,7 @@ Define your company ID and broadcast your UUID with additional data. Start:
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiser.broadcast(UUID, [ManufacturerData]) // The UUID you would like to advertise and additional manufacturer data. 
+BLEAdvertiser.broadcast(UUID, [ManufacturerData], {}) // The UUID you would like to advertise and additional manufacturer data. 
     .then(success => console.log('Broadcasting Sucessful', success))
     .catch(error => console.log('Broadcasting Error', error));
 ```
