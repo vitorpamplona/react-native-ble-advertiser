@@ -37,6 +37,8 @@ import com.facebook.react.bridge.Arguments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.lang.Thread;
 import java.lang.Object;
 import java.util.Hashtable;
@@ -82,13 +84,37 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         return "BLEAdvertiser";
     }
 
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("ADVERTISE_MODE_BALANCED",        AdvertiseSettings.ADVERTISE_MODE_BALANCED);
+        constants.put("ADVERTISE_MODE_LOW_LATENCY",     AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
+        constants.put("ADVERTISE_MODE_LOW_POWER",       AdvertiseSettings.ADVERTISE_MODE_LOW_POWER);
+        constants.put("ADVERTISE_TX_POWER_HIGH",        AdvertiseSettings.ADVERTISE_TX_POWER_HIGH);
+        constants.put("ADVERTISE_TX_POWER_LOW",         AdvertiseSettings.ADVERTISE_TX_POWER_LOW);
+        constants.put("ADVERTISE_TX_POWER_MEDIUM",      AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM);
+        constants.put("ADVERTISE_TX_POWER_ULTRA_LOW",   AdvertiseSettings.ADVERTISE_TX_POWER_ULTRA_LOW);
+
+        constants.put("SCAN_MODE_BALANCED",             ScanSettings.SCAN_MODE_BALANCED);
+        constants.put("SCAN_MODE_LOW_LATENCY",          ScanSettings.SCAN_MODE_LOW_LATENCY);
+        constants.put("SCAN_MODE_LOW_POWER",            ScanSettings.SCAN_MODE_LOW_POWER);
+        constants.put("SCAN_MODE_OPPORTUNISTIC",        ScanSettings.SCAN_MODE_OPPORTUNISTIC);
+        constants.put("MATCH_MODE_AGGRESSIVE",          ScanSettings.MATCH_MODE_AGGRESSIVE);
+        constants.put("MATCH_MODE_STICKY",              ScanSettings.MATCH_MODE_STICKY);
+        constants.put("MATCH_NUM_FEW_ADVERTISEMENT",    ScanSettings.MATCH_NUM_FEW_ADVERTISEMENT);
+        constants.put("MATCH_NUM_MAX_ADVERTISEMENT",    ScanSettings.MATCH_NUM_MAX_ADVERTISEMENT);
+        constants.put("MATCH_NUM_ONE_ADVERTISEMENT",    ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT);
+
+        return constants;
+    }
+
     @ReactMethod
     public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
 
     @ReactMethod
-    public void broadcast(String uid, ReadableArray payload, Promise promise) {
+    public void broadcast(String uid, ReadableArray payload, ReadableMap options, Promise promise) {
         if (mBluetoothAdapter == null) {
             Log.w("BLEAdvertiserModule", "Device does not support Bluetooth. Adapter is Null");
             promise.reject("Device does not support Bluetooth. Adapter is Null");
@@ -132,8 +158,8 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
             return;
         }
         
-        AdvertiseSettings settings = buildAdvertiseSettings();
-        AdvertiseData data = buildAdvertiseData(ParcelUuid.fromString(uid), toByteArray(payload));
+        AdvertiseSettings settings = buildAdvertiseSettings(options);
+        AdvertiseData data = buildAdvertiseData(ParcelUuid.fromString(uid), toByteArray(payload), options);
 
         tempAdvertiser.startAdvertising(settings, data, tempCallback);
 
@@ -245,25 +271,21 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
     private ScanSettings buildScanSettings(ReadableMap options) {
         ScanSettings.Builder scanSettingsBuilder = new ScanSettings.Builder();
 
-        if (options != null) {
-            if (options.hasKey("scanMode")) {
-                scanSettingsBuilder.setScanMode(options.getInt("scanMode"));
-            } else {
-                scanSettingsBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_POWER);
-            }
+        if (options != null && options.hasKey("scanMode")) {
+            scanSettingsBuilder.setScanMode(options.getInt("scanMode"));
+        } 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (options.hasKey("numberOfMatches")) {
-                    scanSettingsBuilder.setNumOfMatches(options.getInt("numberOfMatches"));
-                }
-                if (options.hasKey("matchMode")) {
-                    scanSettingsBuilder.setMatchMode(options.getInt("matchMode"));
-                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (options != null && options.hasKey("numberOfMatches")) {
+                scanSettingsBuilder.setNumOfMatches(options.getInt("numberOfMatches"));
             }
+            if (options != null && options.hasKey("matchMode")) {
+                scanSettingsBuilder.setMatchMode(options.getInt("matchMode"));
+            }
+        }
 
-            if (options.hasKey("reportDelay")) {
-                scanSettingsBuilder.setReportDelay(options.getInt("reportDelay"));
-            }
+        if (options != null && options.hasKey("reportDelay")) {
+            scanSettingsBuilder.setReportDelay(options.getInt("reportDelay"));
         }
 
         return scanSettingsBuilder.build();
@@ -381,18 +403,33 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         promise.resolve(mBluetoothAdapter.getState() == BluetoothAdapter.STATE_ON); 
     }
 
-    private AdvertiseSettings buildAdvertiseSettings() {
+    private AdvertiseSettings buildAdvertiseSettings(ReadableMap options) {
         AdvertiseSettings.Builder settingsBuilder = new AdvertiseSettings.Builder();
-        settingsBuilder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY);
-        settingsBuilder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_ULTRA_LOW);
-        settingsBuilder.setConnectable(true);
+
+        if (options != null && options.hasKey("advertiseMode")) {
+            settingsBuilder.setAdvertiseMode(options.getInt("advertiseMode"));
+        }
+
+        if (options != null && options.hasKey("txPowerLevel")) {
+            settingsBuilder.setTxPowerLevel(options.getInt("txPowerLevel"));
+        }
+
+        if (options != null && options.hasKey("connectable")) {
+            settingsBuilder.setConnectable(options.getBoolean("connectable"));
+        }
+
         return settingsBuilder.build();
     }
 
-    private AdvertiseData buildAdvertiseData(ParcelUuid uuid, byte[] payload) {
+    private AdvertiseData buildAdvertiseData(ParcelUuid uuid, byte[] payload, ReadableMap options) {
         AdvertiseData.Builder dataBuilder = new AdvertiseData.Builder();
-        dataBuilder.setIncludeDeviceName(false);
-        dataBuilder.setIncludeTxPowerLevel(true);
+
+        if (options != null && options.hasKey("includeDeviceName")) 
+            dataBuilder.setIncludeDeviceName(options.getBoolean("includeDeviceName"));
+        
+         if (options != null && options.hasKey("includeTxPowerLevel")) 
+            dataBuilder.setIncludeTxPowerLevel(options.getBoolean("includeTxPowerLevel"));
+        
         dataBuilder.addManufacturerData(companyId, payload);
         dataBuilder.addServiceUuid(uuid);
         return dataBuilder.build();

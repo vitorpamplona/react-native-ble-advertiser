@@ -7,8 +7,16 @@ export interface ScanOptions {
     reportDelay?: number;
 }
 
+export interface BroadcastOptions {
+    txPowerLevel?: number;
+    advertiseMode?: number;
+    includeDeviceName?: boolean;
+    includeTxPowerLevel?: boolean;
+    connectable?: boolean;
+}
+
 export function setCompanyId(companyId: number): void;
-export function broadcast(uid: String, payload: number[]): Promise<string>;
+export function broadcast(uid: String, payload: number[], options?: BroadcastOptions): Promise<string>;
 export function stopBroadcast(): Promise<string>;
 export function scan(payload: number[], options?: ScanOptions): Promise<string>;
 export function stopScan(): Promise<string>;

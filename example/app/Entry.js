@@ -120,7 +120,7 @@ class Entry extends Component {
       requestLocationPermission();
       
       console.log("BLE Advertiser", BLEAdvertiser);
-      BLEAdvertiser.setCompanyId(0xFF); 
+      BLEAdvertiser.setCompanyId(0x4C); 
     
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
@@ -134,7 +134,7 @@ class Entry extends Component {
       });
 
       eventEmitter.addListener('onDeviceFound', (event) => {
-        console.log('onDeviceFound', event);
+        //console.log('onDeviceFound', event);
         if (event.serviceUuids) {
           for(let i=0; i< event.serviceUuids.length; i++){
             if (this.isValidUUID(event.serviceUuids[i]))
@@ -146,7 +146,12 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Starting Advertising");
-      BLEAdvertiser.broadcast(this.state.uuid, [12,23,56])
+      BLEAdvertiser.broadcast(this.state.uuid, [12,23,56], {
+        advertiseMode: BLEAdvertiser.ADVERTISE_MODE_LOW_POWER, 
+        txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_ULTRA_LOW, 
+        connectable: false, 
+        includeDeviceName: false, includeTxPowerLevel: false
+      })
       .then((sucess) => {
         console.log(this.state.uuid, "Adv Successful", sucess);
       }).catch(error => {
@@ -154,7 +159,7 @@ class Entry extends Component {
       });
       
       console.log(this.state.uuid, "Starting Scanner");
-      BLEAdvertiser.scan([12,23,56], {})
+      BLEAdvertiser.scan([12,23,56], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_POWER})
       .then((sucess) => {
         console.log(this.state.uuid, "Scan Successful", sucess);
       }).catch(error => {

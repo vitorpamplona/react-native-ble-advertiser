@@ -22,7 +22,7 @@ RCT_EXPORT_METHOD(setCompanyId: (nonnull NSNumber *)companyId){
     self->peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil options:nil];
 }
 
-RCT_EXPORT_METHOD(broadcast: (NSString *)uid payload:(NSArray *)payload 
+RCT_EXPORT_METHOD(broadcast: (NSString *)uid payload:(NSArray *)payload options:(NSDictionary *)options
     resolve: (RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
 
