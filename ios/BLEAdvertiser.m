@@ -13,7 +13,7 @@
 RCT_EXPORT_MODULE(BLEAdvertiser)
 
 - (NSArray<NSString *> *)supportedEvents {
-    return @[@"onDeviceFound"];
+    return @[@"onDeviceFound", @"onBTStatusChange"];
 }
 
 RCT_EXPORT_METHOD(setCompanyId: (nonnull NSNumber *)companyId){
