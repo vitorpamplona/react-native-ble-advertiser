@@ -14,8 +14,8 @@ RN 0.60+
 - [x] Android Scanner (v0.0.6)
 - [x] iOS Advertiser (v0.0.10)
 - [x] iOS Scanner (v0.0.11)
-- [ ] Android Background Service (Just use react-native-background-fetch for now)
-- [ ] iOS Background Service (Just use react-native-background-fetch for now)
+- [ ] Android Background Service (Just use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch) for now)
+- [ ] iOS Background Service (Just use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch) for now)
 
 ## Install
 
