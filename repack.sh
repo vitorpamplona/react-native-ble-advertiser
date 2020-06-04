@@ -21,14 +21,15 @@ cd ios
 pod install
 cd ..
 
-if [ -z "$1" ] then
+if [ -n "$1" ]  
+then
     echo Running on "$1"
     case "$1" in
         "android") npx react-native run-android
         ;;
-        "ios") npx react-native run-ios --device
+        "ios") npx react-native run-ios --device "$2"
         ;;
     esac
-fi 
+fi
 
 cd ..
