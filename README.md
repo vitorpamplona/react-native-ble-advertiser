@@ -127,3 +127,51 @@ onBTStatusChange = eventEmitter.addListener('onBTStatusChange', (enabled) => {
     console.log("Bluetooth status: ", enabled);
 });
 ```
+
+
+## Developing
+
+1. Fork the repo to your GitHub user. 
+
+2. Clone to your computer.
+
+```bash
+git clone https://github.com/vitorpamplona/react-native-ble-advertiser.git
+```
+
+3. Use the script to repack the lib into the example folder and start the app in a connected device (avoid emulators).
+
+```bash
+ ./repack.sh <android,ios> <devicename>
+```
+
+Pull requests are welcome :) 
+
+### Manual execution
+
+1. Build the library with npm pack
+
+```bash
+npm pack
+```
+
+2. Install your build on the example app.
+
+```bash
+cd example
+npm i $NPMFILE
+```
+
+3. Update pods 
+
+```bash
+cd ios
+pod install
+cd ..
+```
+
+4. Run the example
+
+```bash
+npx react-native run-android
+```
