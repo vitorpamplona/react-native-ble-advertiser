@@ -8,6 +8,7 @@ RN 0.60+
 ## Supported Platforms
 - Android 21+
 - iOS 10+
+- Bluetooth API 5.0+
 
 ## Features / TO-DO List
 
