@@ -118,15 +118,12 @@ class Entry extends Component {
       // Uses the Apple code to pick up iPhones
       BLEAdvertiser.setCompanyId(0x4C); 
     
+      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
+
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
           uuid: newUid.slice(0, -2) + '00'
         });
-      });
-
-      const eventEmitter = Platform.select({
-        ios: new NativeEventEmitter(NativeModules.BLEAdvertiser),
-        android: new NativeEventEmitter(NativeModules.BLEAdvertiser),
       });
 
       eventEmitter.addListener('onDeviceFound', (event) => {
