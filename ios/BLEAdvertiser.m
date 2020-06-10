@@ -104,8 +104,14 @@ RCT_EXPORT_METHOD(disableAdapter){
 RCT_EXPORT_METHOD(getAdapterState:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
     
-    RCTLogInfo(@"enableAdapter function called");
-    resolve(@"Yay!");
+    switch (centralManager.state) {
+        case CBManagerStatePoweredOn:       resolve(@"STATE_ON"); return;
+        case CBManagerStatePoweredOff:      resolve(@"STATE_OFF"); return;
+        case CBManagerStateResetting:       resolve(@"STATE_TURNING_ON"); return;
+        case CBManagerStateUnauthorized:    resolve(@"STATE_OFF"); return;
+        case CBManagerStateUnknown:         resolve(@"STATE_OFF"); return;
+        case CBManagerStateUnsupported:     resolve(@"STATE_OFF"); return;
+    }
 }
 
 RCT_EXPORT_METHOD(isActive: 
