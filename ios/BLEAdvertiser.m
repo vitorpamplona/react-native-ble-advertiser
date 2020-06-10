@@ -210,22 +210,22 @@ RCT_EXPORT_METHOD(isActive:
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
 {
     switch (peripheral.state) {
-        case CBPeripheralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
             NSLog(@"%ld, CBPeripheralManagerStatePoweredOn", peripheral.state);
             break;
-        case CBPeripheralManagerStatePoweredOff:
+        case CBManagerStatePoweredOff:
             NSLog(@"%ld, CBPeripheralManagerStatePoweredOff", peripheral.state);
             break;
-        case CBPeripheralManagerStateResetting:
+        case CBManagerStateResetting:
             NSLog(@"%ld, CBPeripheralManagerStateResetting", peripheral.state);
             break;
-        case CBPeripheralManagerStateUnauthorized:
+        case CBManagerStateUnauthorized:
             NSLog(@"%ld, CBPeripheralManagerStateUnauthorized", peripheral.state);
             break;
-        case CBPeripheralManagerStateUnsupported:
+        case CBManagerStateUnsupported:
             NSLog(@"%ld, CBPeripheralManagerStateUnsupported", peripheral.state);
             break;
-        case CBPeripheralManagerStateUnknown:
+        case CBManagerStateUnknown:
             NSLog(@"%ld, CBPeripheralManagerStateUnknown", peripheral.state);
             break;
         default:
