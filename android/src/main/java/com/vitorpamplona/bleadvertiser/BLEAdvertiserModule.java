@@ -175,6 +175,14 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         return temp;
     }
 
+    private WritableArray toByteArray(byte[] payload) {
+        WritableArray array = Arguments.createArray();
+        for (byte data : payload) {
+            array.pushInt(data);
+        }
+        return array;
+    }
+
    @ReactMethod
     public void stopBroadcast(final Promise promise) {
         Log.w("BLEAdvertiserModule", "Stop Broadcast call");
@@ -207,7 +215,16 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-	public void scan(ReadableArray manufacturerPayload, ReadableMap options, Promise promise) {
+	public void scanByService(String uid, ReadableMap options, Promise promise) {
+        scan(uid, null, options, promise);
+    }
+
+    @ReactMethod
+    public void scan(ReadableArray manufacturerPayload, ReadableMap options, Promise promise) {
+        scan(null, manufacturerPayload, options, promise);
+    }
+
+	public void scan(String uid, ReadableArray manufacturerPayload, ReadableMap options, Promise promise) {
         if (mBluetoothAdapter == null) {
             promise.reject("Device does not support Bluetooth. Adapter is Null");
             return;
@@ -240,7 +257,10 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
         ScanSettings scanSettings = buildScanSettings(options);
     
         List<ScanFilter> filters = new ArrayList<>();
-        filters.add(new ScanFilter.Builder().setManufacturerData(companyId, toByteArray(manufacturerPayload)).build());
+        if (manufacturerPayload != null)
+            filters.add(new ScanFilter.Builder().setManufacturerData(companyId, toByteArray(manufacturerPayload)).build());
+        if (uid != null) 
+            filters.add(new ScanFilter.Builder().setServiceUuid(ParcelUuid.fromString(uid)).build());
         
         mScanner.startScan(filters, scanSettings, mScannerCallback);
         promise.resolve("Scanner started");

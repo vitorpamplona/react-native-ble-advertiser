@@ -56,8 +56,22 @@ RCT_EXPORT_METHOD(scan: (NSArray *)payload options:(NSDictionary *)options
     RCTLogInfo(@"stopBroadcast function called");
     
     [centralManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:[NSNumber numberWithBool:YES]}];
+RCT_EXPORT_METHOD(scanByService: (NSString *)uid options:(NSDictionary *)options 
+    resolve: (RCTPromiseResolveBlock)resolve
+    rejecter:(RCTPromiseRejectBlock)reject){
+
+    if (!centralManager) { reject(@"Device does not support Bluetooth", @"Adapter is Null", nil); return; }
     
-    resolve(@"Yay! Central Manager Created");
+    switch (centralManager.state) {
+        case CBManagerStatePoweredOn:    break;
+        case CBManagerStatePoweredOff:   reject(@"Bluetooth not ON",@"Powered off", nil);   return;
+        case CBManagerStateResetting:    reject(@"Bluetooth not ON",@"Resetting", nil);     return;
+        case CBManagerStateUnauthorized: reject(@"Bluetooth not ON",@"Unauthorized", nil);  return;
+        case CBManagerStateUnknown:      reject(@"Bluetooth not ON",@"Unknown", nil);       return;
+        case CBManagerStateUnsupported:  reject(@"STATE_OFF",@"Unsupported", nil);          return;
+    }
+ 
+    [centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:uid]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey:[NSNumber numberWithBool:YES]}];
 }
 
 RCT_EXPORT_METHOD(stopScan:(RCTPromiseResolveBlock)resolve
