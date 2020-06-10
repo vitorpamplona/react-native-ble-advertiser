@@ -158,7 +158,7 @@ git clone https://github.com/vitorpamplona/react-native-ble-advertiser.git
 4. If you only change the Example files, you can re-run the example with the usual
 
 ```bash
-npx react-native <run-android, run-ios device>
+npx react-native <run-android, run-ios --device>
 ```
 
 Pull requests are welcome :) 
