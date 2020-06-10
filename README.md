@@ -6,7 +6,8 @@ Bluetooth Advertiser & Scanner for React Native. This is in a very early develop
 RN 0.60+
 
 ## Supported Platforms
-- Android (API 21+)
+- Android 21+
+- iOS 10+
 
 ## Features / TO-DO List
 
