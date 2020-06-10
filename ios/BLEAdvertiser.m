@@ -38,16 +38,15 @@ RCT_EXPORT_METHOD(broadcast: (NSString *)uid payload:(NSArray *)payload options:
 
     [peripheralManager startAdvertising:advertisingData];
 
-    resolve(@"Yay!");
+    resolve(@"Broadcasting");
 }
 
 RCT_EXPORT_METHOD(stopBroadcast:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
-    RCTLogInfo(@"stopBroadcast function called");
 
     [peripheralManager stopAdvertising];
 
-    resolve(@"Yay!");
+    resolve(@"Stopping Broadcast");
 }
 
 RCT_EXPORT_METHOD(scan: (NSArray *)payload options:(NSDictionary *)options 
@@ -76,10 +75,9 @@ RCT_EXPORT_METHOD(scanByService: (NSString *)uid options:(NSDictionary *)options
 
 RCT_EXPORT_METHOD(stopScan:(RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
-    RCTLogInfo(@"stopScan function called");
-    resolve(@"Yay!");
 
     [centralManager stopScan];
+    resolve(@"Stopping Scan");
 }
 
 RCT_EXPORT_METHOD(enableAdapter){
