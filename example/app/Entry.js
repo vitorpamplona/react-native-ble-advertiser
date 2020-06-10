@@ -144,13 +144,9 @@ class Entry extends Component {
         advertiseMode: BLEAdvertiser.ADVERTISE_MODE_LOW_POWER, 
         txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_ULTRA_LOW, 
         connectable: false, 
-        includeDeviceName: false, includeTxPowerLevel: false
-      })
-      .then((sucess) => {
-        console.log(this.state.uuid, "Adv Successful", sucess);
-      }).catch(error => {
-        console.log(this.state.uuid, "Adv Error", error); 
-      });
+        includeDeviceName: false, includeTxPowerLevel: false })
+        .then(sucess => console.log(this.state.uuid, "Adv Successful", sucess))
+        .catch(error => console.log(this.state.uuid, "Adv Error", error));
       
       console.log(this.state.uuid, "Starting Scanner");
       // Manuf Data [1,0,0,0] picks up iPhones
@@ -169,19 +165,13 @@ class Entry extends Component {
     stop(){
       console.log(this.state.uuid, "Stopping Broadcast");
       BLEAdvertiser.stopBroadcast()
-        .then((sucess) => {
-          console.log(this.state.uuid, "Stop Broadcast Successful", sucess);
-        }).catch(error => {
-          console.log(this.state.uuid, "Stop Broadcast Error", error); 
-        });
+        .then(sucess => console.log(this.state.uuid, "Stop Broadcast Successful", sucess))
+        .catch(error => console.log(this.state.uuid, "Stop Broadcast Error", error));
 
       console.log(this.state.uuid, "Stopping Scanning");
       BLEAdvertiser.stopScan()
-        .then((sucess) => {
-          console.log(this.state.uuid, "Stop Scan Successful", sucess);
-        }).catch(error => {
-          console.log(this.state.uuid, "Stop Scan Error", error); 
-        });
+        .then(sucess => console.log(this.state.uuid, "Stop Scan Successful", sucess) )
+        .catch(error => console.log(this.state.uuid, "Stop Scan Error", error) );
 
       this.setState({
         isLogging: false,
