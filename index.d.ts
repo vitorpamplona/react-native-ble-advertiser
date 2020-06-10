@@ -16,9 +16,9 @@ export interface BroadcastOptions {
 }
 
 export function setCompanyId(companyId: number): void;
-export function broadcast(uid: String, payload: number[], options?: BroadcastOptions): Promise<string>;
+export function broadcast(uid: String, manufData: number[], options?: BroadcastOptions): Promise<string>;
 export function stopBroadcast(): Promise<string>;
-export function scan(payload: number[], options?: ScanOptions): Promise<string>;
+export function scan(manufDataFilter: number[], options?: ScanOptions): Promise<string>;
 export function stopScan(): Promise<string>;
 export function enableAdapter(): void;
 export function disableAdapter(): void;
