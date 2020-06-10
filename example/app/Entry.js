@@ -120,6 +120,7 @@ class Entry extends Component {
       requestLocationPermission();
       
       console.log("BLE Advertiser", BLEAdvertiser);
+      // Uses the Apple code to pick up iPhones
       BLEAdvertiser.setCompanyId(0x4C); 
     
       UUIDGenerator.getRandomUUID((newUid) => {
@@ -146,7 +147,8 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Starting Advertising");
-      BLEAdvertiser.broadcast(this.state.uuid, [12,23,56], {
+      // Manuf Data [1,0,0,0] picks up iPhones
+      BLEAdvertiser.broadcast(this.state.uuid, [1,0], {
         advertiseMode: BLEAdvertiser.ADVERTISE_MODE_LOW_POWER, 
         txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_ULTRA_LOW, 
         connectable: false, 
@@ -159,7 +161,8 @@ class Entry extends Component {
       });
       
       console.log(this.state.uuid, "Starting Scanner");
-      BLEAdvertiser.scan([12,23,56], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_POWER})
+      // Manuf Data [1,0,0,0] picks up iPhones
+      BLEAdvertiser.scan([1,0], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_POWER})
       .then((sucess) => {
         console.log(this.state.uuid, "Scan Successful", sucess);
       }).catch(error => {
