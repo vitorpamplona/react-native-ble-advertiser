@@ -155,6 +155,12 @@ git clone https://github.com/vitorpamplona/react-native-ble-advertiser.git
  ./repack.sh <android,ios> <devicename>
 ```
 
+4. If you only change the Example files, you can re-run the example with the usual
+
+```bash
+npx react-native <run-android, run-ios device>
+```
+
 Pull requests are welcome :) 
 
 ### Manual execution
