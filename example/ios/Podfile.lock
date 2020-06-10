@@ -182,7 +182,7 @@ PODS:
     - React-cxxreact (= 0.62.1)
     - React-jsi (= 0.62.1)
   - React-jsinspector (0.62.1)
-  - react-native-ble-advertiser (0.0.13):
+  - react-native-ble-advertiser (0.0.14):
     - React
   - react-native-uuid-generator (6.1.1):
     - React
@@ -355,7 +355,7 @@ SPEC CHECKSUMS:
   React-jsi: 600d8e42510c3254fd2abd702f4b9d3f598d8f52
   React-jsiexecutor: e9698dee4fd43ceb44832baf15d5745f455b0157
   React-jsinspector: f74a62727e5604119abd4a1eda52c0a12144bcd5
-  react-native-ble-advertiser: 4149f209ae01eccb2fa307eacc27c47681bf7e93
+  react-native-ble-advertiser: 56d5e1b2ad6dc78ec1ad094095976dcac7a93ba9
   react-native-uuid-generator: 997d9848f07081ce7200a05b76e3f8c7b309963c
   React-RCTActionSheet: af8f28dd82fec89b8fe29637b8c779829e016a88
   React-RCTAnimation: 0d21fff7c20fb8ee41de5f2ebb63221127febd96
@@ -369,6 +369,6 @@ SPEC CHECKSUMS:
   ReactCommon: 3585806280c51d5c2c0d3aa5a99014c3badb629d
   Yoga: 50fb6eb13d2152e7363293ff603385db380815b1
 
-PODFILE CHECKSUM: a6d0c8a6f7ff905a2d123332fbb28e74bf8e2e9c
+PODFILE CHECKSUM: dbfdd9454e11da2895da2df5a013e97f956fd16c
 
 COCOAPODS: 1.9.1
