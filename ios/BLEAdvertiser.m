@@ -18,7 +18,7 @@ RCT_EXPORT_MODULE(BLEAdvertiser)
 
 RCT_EXPORT_METHOD(setCompanyId: (nonnull NSNumber *)companyId){
     RCTLogInfo(@"setCompanyId function called %@", companyId);
-    self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue: nil options: nil];
+    self->centralManager = [[CBCentralManager alloc] initWithDelegate:self queue: nil options:@{CBCentralManagerOptionShowPowerAlertKey: @(YES)}];
     self->peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil options:nil];
 }
 
