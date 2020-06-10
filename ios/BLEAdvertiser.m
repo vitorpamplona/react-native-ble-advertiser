@@ -115,10 +115,10 @@ RCT_EXPORT_METHOD(getAdapterState:(RCTPromiseResolveBlock)resolve
 }
 
 RCT_EXPORT_METHOD(isActive: 
-    resolve: (RCTPromiseResolveBlock)resolve
+     (RCTPromiseResolveBlock)resolve
     rejecter:(RCTPromiseRejectBlock)reject){
-    RCTLogInfo(@"isActive function called");
-    resolve(@"Yay!");
+  
+    resolve(([centralManager state] == CBManagerStatePoweredOn) ? @YES : @NO);
 }
 
 
