@@ -85,11 +85,6 @@ class Entry extends Component {
         }
     }
 
-    isValidUUID(uuid) {
-      if (!uuid)return false;
-      return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(uuid);
-    }
-
     addDevice(_uuid, _name, _mac, _rssi, _date) {
       let index = -1;
       for(let i=0; i< this.state.devicesFound.length; i++){
@@ -125,7 +120,7 @@ class Entry extends Component {
     
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
-          uuid: newUid
+          uuid: newUid.slice(0, -2) + '00'
         });
       });
 
@@ -138,7 +133,7 @@ class Entry extends Component {
         console.log('onDeviceFound', event);
         if (event.serviceUuids) {
           for(let i=0; i< event.serviceUuids.length; i++){
-            if (this.isValidUUID(event.serviceUuids[i]))
+            if (event.serviceUuids[i] && event.serviceUuids[i].endsWith('00'))
               this.addDevice(event.serviceUuids[i], event.deviceName, event.deviceAddress, event.rssi, new Date())   
           }
         }
