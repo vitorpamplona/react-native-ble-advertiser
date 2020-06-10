@@ -327,11 +327,15 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
 
             params.putArray("serviceUuids", paramsUUID);
             params.putInt("rssi", result.getRssi());
-
+            
             if (result.getScanRecord() != null) {
                 params.putInt("txPower", result.getScanRecord().getTxPowerLevel());
                 params.putString("deviceName", result.getScanRecord().getDeviceName());
                 params.putInt("advFlags", result.getScanRecord().getAdvertiseFlags());
+                if (result.getScanRecord().getManufacturerSpecificData(companyId) != null) {
+                    params.putInt("companyId", companyId);
+                    params.putArray("manufData", toByteArray(result.getScanRecord().getManufacturerSpecificData(companyId)));
+                }
             }
             
             if (result.getDevice() != null) {
