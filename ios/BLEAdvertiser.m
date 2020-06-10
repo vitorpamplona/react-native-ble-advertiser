@@ -121,11 +121,11 @@ RCT_EXPORT_METHOD(isActive:
     resolve(([centralManager state] == CBManagerStatePoweredOn) ? @YES : @NO);
 }
 
-
 -(void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI {
-    NSString *peripheralName = [peripheral name];
-    RCTLogInfo(@"Found: %@", peripheralName);
-    RCTLogInfo(@"Found: %@", [peripheral services]);
+    RCTLogInfo(@"Found Name: %@", [peripheral name]);
+    RCTLogInfo(@"Found Services: %@", [peripheral services]);
+    RCTLogInfo(@"Found Id : %@", [peripheral identifier]);
+    RCTLogInfo(@"Found UUID String : %@", [[peripheral identifier] UUIDString]);
 
     NSArray *keys = [advertisementData allKeys];
     for (int i = 0; i < [keys count]; ++i) {
