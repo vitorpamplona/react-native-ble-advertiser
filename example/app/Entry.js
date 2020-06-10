@@ -134,7 +134,7 @@ class Entry extends Component {
       });
 
       eventEmitter.addListener('onDeviceFound', (event) => {
-        //console.log('onDeviceFound', event);
+        console.log('onDeviceFound', event);
         if (event.serviceUuids) {
           for(let i=0; i< event.serviceUuids.length; i++){
             if (this.isValidUUID(event.serviceUuids[i]))
