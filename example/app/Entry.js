@@ -193,15 +193,7 @@ class Entry extends Component {
     };
 
     short(str) {
-      return str.substring(0, 4) + " ... " + str.substring(str.length-4, str.length); 
-    }
-
-    dateDiffSecs(start, end) {
-      return Math.floor((end.getTime() - start.getTime())/1000);
-    }
-
-    dateStr(dt) {
-      return Moment(dt).format('H:mm');
+      return (str.substring(0, 4) + " ... " + str.substring(str.length-4, str.length)).toUpperCase(); 
     }
 
     render() {
@@ -237,7 +229,7 @@ class Entry extends Component {
               <Text style={styles.sectionTitle}>Devices Around</Text>
               <FlatList
                   data={ this.state.devicesFound }
-                  renderItem={({item}) => <Text style={styles.itemPastConnections}>{this.dateStr(item.start)} ({this.dateDiffSecs(item.start, item.end)}s): {this.short(item.uuid)} {item.rssi}</Text>}
+                  renderItem={({item}) => <Text style={styles.itemPastConnections}>{this.short(item.uuid)} {item.mac} {item.rssi}</Text>}
                   keyExtractor={item => item.uuid}
                   />
             </View>
