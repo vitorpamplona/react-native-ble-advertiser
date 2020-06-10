@@ -174,28 +174,36 @@ RCT_EXPORT_METHOD(isActive:
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central {
     NSLog(@"Check BT status");
+    NSMutableDictionary *params =  [[NSMutableDictionary alloc] initWithCapacity:1];      
     switch (central.state) {
-        case CBCentralManagerStatePoweredOff:
+        case CBManagerStatePoweredOff:
+            params[@"enabled"] = @NO;
             NSLog(@"CoreBluetooth BLE hardware is powered off");
             break;
-        case CBCentralManagerStatePoweredOn:
+        case CBManagerStatePoweredOn:
+            params[@"enabled"] = @YES;
             NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
             break;
-        case CBCentralManagerStateResetting:
+        case CBManagerStateResetting:
+            params[@"enabled"] = @NO;
             NSLog(@"CoreBluetooth BLE hardware is resetting");
             break;
-        case CBCentralManagerStateUnauthorized:
+        case CBManagerStateUnauthorized:
+            params[@"enabled"] = @NO;
             NSLog(@"CoreBluetooth BLE state is unauthorized");
             break;
-        case CBCentralManagerStateUnknown:
+        case CBManagerStateUnknown:
+            params[@"enabled"] = @NO;
             NSLog(@"CoreBluetooth BLE state is unknown");
             break;
-        case CBCentralManagerStateUnsupported:
+        case CBManagerStateUnsupported:
+            params[@"enabled"] = @NO;
             NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
             break;
         default:
             break;
     }
+    [self sendEventWithName:@"onBTStatusChange" body:params];
 }
 
 #pragma mark - CBPeripheralManagerDelegate
