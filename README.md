@@ -72,7 +72,7 @@ Define your company ID and broadcast your UUID with additional data. Start:
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiser.broadcast(UUID, [ManufacturerData], {}) // The UUID you would like to advertise and additional manufacturer data. 
+BLEAdvertiser.broadcast(UUID, [ManufacturerData], {}) // The service UUID you would like to advertise and additional manufacturer data. 
     .then(success => console.log('Broadcasting Sucessful', success))
     .catch(error => console.log('Broadcasting Error', error));
 ```
@@ -94,7 +94,16 @@ import BLEAdvertiser from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 ```
 
-Define your company ID and additional data (Scanner fitlers inbound based on these). 
+Scan by Service UUID. 
+
+```js
+BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
+BLEAdvertiser.scanByService([UUID], {}) // manufacturer data and options
+    .then(success => console.log("Scan Successful", success))
+    .catch(error => console.log("Scan Error", error)); 
+```
+
+or scan by your company ID and additional data (Scanner fitlers inbound broadcasters based on these - Android only). 
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
