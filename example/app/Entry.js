@@ -90,7 +90,7 @@ class Entry extends Component {
       return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(uuid);
     }
 
-    addDevice(_uuid, _name, _rssi, _date) {
+    addDevice(_uuid, _name, _mac, _rssi, _date) {
       let index = -1;
       for(let i=0; i< this.state.devicesFound.length; i++){
         if (this.state.devicesFound[i].uuid == _uuid) {
@@ -98,7 +98,7 @@ class Entry extends Component {
         }
       }
       if (index<0) {
-        let dev = {uuid:_uuid, name:_name, rssi:_rssi, start:_date, end:_date};
+        let dev = {uuid:_uuid, name:_name, mac: _mac, rssi:_rssi, start:_date, end:_date};
         this.setState({
           devicesFound: update(this.state.devicesFound, 
             {$push: [dev]}
@@ -138,7 +138,7 @@ class Entry extends Component {
         if (event.serviceUuids) {
           for(let i=0; i< event.serviceUuids.length; i++){
             if (this.isValidUUID(event.serviceUuids[i]))
-              this.addDevice(event.serviceUuids[i], event.deviceName, event.rssi, new Date())   
+              this.addDevice(event.serviceUuids[i], event.deviceName, event.deviceAddress, event.rssi, new Date())   
           }
         }
       });
