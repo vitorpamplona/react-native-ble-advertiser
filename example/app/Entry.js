@@ -139,23 +139,20 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Starting Advertising");
-      // Manuf Data [1,0,0,0] picks up iPhones
+      // Manuf Data [1,0] picks up iPhones
       BLEAdvertiser.broadcast(this.state.uuid, [1,0], {
-        advertiseMode: BLEAdvertiser.ADVERTISE_MODE_LOW_POWER, 
-        txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_ULTRA_LOW, 
+        advertiseMode: BLEAdvertiser.ADVERTISE_MODE_BALANCED, 
+        txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_MEDIUM, 
         connectable: false, 
         includeDeviceName: false, includeTxPowerLevel: false })
         .then(sucess => console.log(this.state.uuid, "Adv Successful", sucess))
         .catch(error => console.log(this.state.uuid, "Adv Error", error));
       
       console.log(this.state.uuid, "Starting Scanner");
-      // Manuf Data [1,0,0,0] picks up iPhones
-      BLEAdvertiser.scan([1,0], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_POWER})
-      .then((sucess) => {
-        console.log(this.state.uuid, "Scan Successful", sucess);
-      }).catch(error => {
-        console.log(this.state.uuid, "Scan Error", error); 
-      });
+      // Manuf Data [1,0] picks up iPhones
+      BLEAdvertiser.scan([1,0], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
+        .then(sucess => console.log(this.state.uuid, "Scan Successful", sucess))
+        .catch(error => console.log(this.state.uuid, "Scan Error", error));
 
       this.setState({
         isLogging: true,
