@@ -2,10 +2,8 @@
 
 Bluetooth Advertiser & Scanner for React Native. This is in a very early development focused in contact tracing applications. Please use with caution.
 
-## Requirements
-RN 0.60+
-
 ## Supported Platforms
+- ReactNative 0.60+
 - Android 21+
 - iOS 10+
 - Bluetooth API 5.0+
@@ -18,45 +16,48 @@ RN 0.60+
 - [x] iOS Advertiser (v0.0.10)
 - [x] iOS Scanner (v0.0.11)
 - [ ] iOS BLE Status Events 
-- [ ] Android Background Service (Just use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch) for now)
-- [ ] iOS Background Service (Just use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch) for now)
+- [ ] Android Background Service (Use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch))
+- [ ] iOS Background Service (Use [react-native-background-fetch](https://www.npmjs.com/package/react-native-background-fetch))
 
-## Install
+## Installation
 
 ```bash
 npm install react-native-ble-advertiser --save
 ```
 
+or
+
+```bash
+yarn add react-native-ble-advertiser
+```
+
 ### Setting up the Android Project
 
-In AndroidManifest.xml, add Bluetooth permissions and update <uses-sdk/>:
+In the AndroidManifest.xml file, add the Bluetooth permissions
+
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    ...
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.BLUETOOTH"/>
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 ```
 
 ### Setting up the iOS Project
 
-On your plist file, include: 
+On your plist file, add the following keys: 
 ```xml
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We log your location to allow comparisons with other user's locations in a privacy-preserving way.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>We broadcast and scan for bluetooth signals in a way to track all phones nearby you in a privacy-preserving way.</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>bluetooth-central</string>
-		<string>bluetooth-peripheral</string>
-        ...
-	</array>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>bluetooth-le</string>
-        ....
-	</array>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>...</string>
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>...</string>
+<key>UIBackgroundModes</key>
+<array>
+    <string>bluetooth-central</string>
+    <string>bluetooth-peripheral</string>
+</array>
+<key>UIRequiredDeviceCapabilities</key>
+<array>
+    <string>bluetooth-le</string>
+</array>
 ```
 
 ## Usage
@@ -69,11 +70,11 @@ Import the module
 import BLEAdvertiser from 'react-native-ble-advertiser'
 ```
 
-Define your company ID and broadcast your UUID with additional data. Start: 
+Define your company ID and broadcast your service UUID with additional manufactoring data: 
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiser.broadcast(UUID, [ManufacturerData], {}) // The service UUID you would like to advertise and additional manufacturer data. 
+BLEAdvertiser.broadcast([UUID], [ManufacturerData], {}) // The service UUID and additional manufacturer data. 
     .then(success => console.log('Broadcasting Sucessful', success))
     .catch(error => console.log('Broadcasting Error', error));
 ```
@@ -95,16 +96,25 @@ import BLEAdvertiser from 'react-native-ble-advertiser'
 import { NativeEventEmitter, NativeModules } from 'react-native';
 ```
 
-Scan by Service UUID. 
+Register a listener to collect the devices through ReactNative events. 
+
+```js
+const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
+eventEmitter.addListener('onDeviceFound', (deviceData) => {
+    console.log(deviceData);
+});
+```
+
+Scan by Service UUID 
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
-BLEAdvertiser.scanByService([UUID], {}) // manufacturer data and options
+BLEAdvertiser.scanByService([UUID], {}) // service UUID and options
     .then(success => console.log("Scan Successful", success))
     .catch(error => console.log("Scan Error", error)); 
 ```
 
-or scan by your company ID and additional data (Scanner fitlers inbound broadcasters based on these - Android only). 
+Scan by your company ID and additional data (Android only). 
 
 ```js
 BLEAdvertiser.setCompanyId(0x00); // Your Company's Code
@@ -113,16 +123,7 @@ BLEAdvertiser.scan([ManufacturerData], {}) // manufacturer data and options
     .catch(error => console.log("Scan Error", error)); 
 ```
 
-Collect devices through ReactNative events. 
-
-```js
-const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
-eventEmitter.addListener('onDeviceFound', (event) => {
-    console.log(event) // "device data"
-});
-```
-
-Stop scannig. 
+Stop scanning. 
 
 ```js
 BLEAdvertiser.stopScan()
@@ -130,7 +131,7 @@ BLEAdvertiser.stopScan()
     .catch(error => console.log("Stop Scan Error", error));
 ```
 
-## Bluetooth Status
+### Bluetooth Status
 
 ```js
 const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
@@ -138,7 +139,6 @@ onBTStatusChange = eventEmitter.addListener('onBTStatusChange', (enabled) => {
     console.log("Bluetooth status: ", enabled);
 });
 ```
-
 
 ## Developing
 
@@ -153,7 +153,7 @@ git clone https://github.com/vitorpamplona/react-native-ble-advertiser.git
 3. Use the script to repack the lib into the example folder and start the app in a connected device (avoid emulators).
 
 ```bash
- ./repack.sh <android,ios> <devicename>
+./repack.sh <android,ios> <devicename>
 ```
 
 4. If you only change the Example files, you can re-run the example with the usual
