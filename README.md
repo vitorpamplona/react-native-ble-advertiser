@@ -79,6 +79,26 @@ BLEAdvertiser.broadcast([UUID], [ManufacturerData], {}) // The service UUID and 
     .catch(error => console.log('Broadcasting Error', error));
 ```
 
+Available Advertising Options: 
+```js
+{
+    advertiseMode: BLEAdvertiser.<
+        ADVERTISE_MODE_LOW_POWER, 
+        ADVERTISE_MODE_BALANCED, 
+        ADVERTISE_MODE_LOW_LATENCY, 
+        ADVERTISE_MODE_LOW_POWER>,
+    txPowerLevel: BLEAdvertiser.<
+        ADVERTISE_TX_POWER_LOW, 
+        ADVERTISE_TX_POWER_HIGH, 
+        ADVERTISE_TX_POWER_LOW, 
+        ADVERTISE_TX_POWER_MEDIUM, 
+        ADVERTISE_TX_POWER_ULTRA_LOW>,
+    connectable: <false,true>, 
+    includeDeviceName: <false,true>, 
+    includeTxPowerLevel: <false,true>
+}
+```
+
 Stop broadcasting
 
 ```js
@@ -123,8 +143,26 @@ BLEAdvertiser.scan([ManufacturerData], {}) // manufacturer data and options
     .catch(error => console.log("Scan Error", error)); 
 ```
 
-Stop scanning. 
+Available Scanning Options: 
+```js
+{
+    scanMode: BLEAdvertiser.<
+        SCAN_MODE_BALANCED, 
+        SCAN_MODE_LOW_LATENCY, 
+        SCAN_MODE_LOW_POWER, 
+        SCAN_MODE_OPPORTUNISTIC>,
+    matchMode: BLEAdvertiser.<
+        MATCH_MODE_AGGRESSIVE, 
+        MATCH_MODE_STICKY>,
+    numberOfMatches: BLEAdvertiser.<
+        MATCH_NUM_FEW_ADVERTISEMENT,
+        MATCH_NUM_MAX_ADVERTISEMENT, 
+        MATCH_NUM_ONE_ADVERTISEMENT>,
+    reportDelay: <int>
+}
+```
 
+Stop scanning
 ```js
 BLEAdvertiser.stopScan()
     .then(success => console.log("Stop Scan Successful", success))
