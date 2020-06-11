@@ -1,11 +1,11 @@
 {
     "name": "react-native-ble-advertiser",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "A react-native implementation for sending BLE advertisements",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags"
+        "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags"
     },
     "keywords": [
         "react",
@@ -29,5 +29,5 @@
         "index.js",
         "index.d.ts",
         "react-native.config.js"
-      ]
+    ]
 }
