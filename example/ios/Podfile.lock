@@ -182,7 +182,7 @@ PODS:
     - React-cxxreact (= 0.62.1)
     - React-jsi (= 0.62.1)
   - React-jsinspector (0.62.1)
-  - react-native-ble-advertiser (0.0.15):
+  - react-native-ble-advertiser (0.0.16):
     - React
   - react-native-uuid-generator (6.1.1):
     - React
@@ -355,7 +355,7 @@ SPEC CHECKSUMS:
   React-jsi: 600d8e42510c3254fd2abd702f4b9d3f598d8f52
   React-jsiexecutor: e9698dee4fd43ceb44832baf15d5745f455b0157
   React-jsinspector: f74a62727e5604119abd4a1eda52c0a12144bcd5
-  react-native-ble-advertiser: 9083f33044fb2f3c195b0f1e9c87a584a3ba68bb
+  react-native-ble-advertiser: 3f773e62dd85c6811c4ce90c98fad0b8e2093621
   react-native-uuid-generator: 997d9848f07081ce7200a05b76e3f8c7b309963c
   React-RCTActionSheet: af8f28dd82fec89b8fe29637b8c779829e016a88
   React-RCTAnimation: 0d21fff7c20fb8ee41de5f2ebb63221127febd96
