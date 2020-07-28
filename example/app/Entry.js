@@ -6,26 +6,23 @@ import {
   ScrollView,
   View,
   Text,
-  Button,
-  StatusBar,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
 
-import Moment from 'moment';
-
 import { Alert, Platform } from 'react-native';
 import { NativeEventEmitter, NativeModules } from 'react-native';
-import BLEAdvertiser from 'react-native-ble-advertiser'
+
 import update from 'immutability-helper';
-
-import {
-  Header,
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-
+import BLEAdvertiser from 'react-native-ble-advertiser'
 import UUIDGenerator from 'react-native-uuid-generator';
 import { PermissionsAndroid } from 'react-native';
+
+// Uses the Apple code to pick up iPhones
+const APPLE_ID = 0x4C;
+const MANUF_DATA = [1,0];
+
+BLEAdvertiser.setCompanyId(APPLE_ID); 
 
 export async function requestLocationPermission() {
   try {
@@ -38,23 +35,23 @@ export async function requestLocationPermission() {
         }
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the location")
+        console.log('[Permissions]', 'Location Permission granted')
       } else {
-        console.log("location permission denied")
+        console.log('[Permissions]', 'Location Permission denied')
       }
     }
 
     const blueoothActive = await BLEAdvertiser.getAdapterState().then(result => {
-      console.log('[Bluetooth]', "isBTActive", result)
+      console.log('[Bluetooth]', 'Bluetooth Status', result)
       return result === "STATE_ON";
     }).catch(error => { 
-      console.log('[Bluetooth]', "BT Not Enabled")
+      console.log('[Bluetooth]', 'Bluetooth Not Enabled')
       return false;
     });
 
     if (!blueoothActive) {
       await Alert.alert(
-        'Private Kit requires bluetooth to be enabled',
+        'Example requires bluetooth to be enabled',
         'Would you like to enable Bluetooth?',
         [
           {
@@ -63,14 +60,12 @@ export async function requestLocationPermission() {
           },
           {
             text: 'No',
-            onPress: () => console.log('No Pressed'),
+            onPress: () => console.log('Do Not Enable Bluetooth Pressed'),
             style: 'cancel',
           },
         ],
       )
     }
-
-    console.log("BT Active?", blueoothActive);
   } catch (err) {
     console.warn(err)
   }
@@ -86,26 +81,17 @@ class Entry extends Component {
     }
 
     addDevice(_uuid, _name, _mac, _rssi, _date) {
-      let index = -1;
-      for(let i=0; i< this.state.devicesFound.length; i++){
-        if (this.state.devicesFound[i].uuid == _uuid) {
-          index = i;
-        }
-      }
+      const index = this.state.devicesFound.findIndex( ({ uuid }) => uuid == _uuid);
       if (index<0) {
-        let dev = {uuid:_uuid, name:_name, mac: _mac, rssi:_rssi, start:_date, end:_date};
         this.setState({
           devicesFound: update(this.state.devicesFound, 
-            {$push: [dev]}
+            {$push: [{uuid:_uuid, name:_name, mac: _mac, rssi:_rssi, start:_date, end:_date}]}
           )
         });
       } else {
-        //let dev = this.state.devicesFound[index];
-        //const newList = this.state.devicesFound.splice(index, 1);
-        const itemIndex = index;
         this.setState({
           devicesFound: update(this.state.devicesFound, 
-            {[itemIndex]: {end: {$set: _date}, rssi: {$set: _rssi || this.state.devicesFound[itemIndex].rssi }}}
+            {[index]: {end: {$set: _date}, rssi: {$set: _rssi || this.state.devicesFound[index].rssi }}}
           )
         });
       }
@@ -114,19 +100,23 @@ class Entry extends Component {
     componentDidMount(){
       requestLocationPermission();
       
-      console.log("BLE Advertiser", BLEAdvertiser);
-      // Uses the Apple code to pick up iPhones
-      BLEAdvertiser.setCompanyId(0x4C); 
-    
-      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
-
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
           uuid: newUid.slice(0, -2) + '00'
         });
       });
+    }
 
-      eventEmitter.addListener('onDeviceFound', (event) => {
+    componentWillUnmount() {
+      if (this.state.isLogging)
+        this.stop();
+    }
+
+    start() {
+      console.log(this.state.uuid, "Registering Listener");
+      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
+
+      this.onDeviceFound = eventEmitter.addListener('onDeviceFound', (event) => {
         //console.log('onDeviceFound', event);
         if (event.serviceUuids) {
           for(let i=0; i< event.serviceUuids.length; i++){
@@ -135,12 +125,9 @@ class Entry extends Component {
           }
         }
       });
-    }
 
-    start() {
       console.log(this.state.uuid, "Starting Advertising");
-      // Manuf Data [1,0] picks up iPhones
-      BLEAdvertiser.broadcast(this.state.uuid, [1,0], {
+      BLEAdvertiser.broadcast(this.state.uuid, MANUF_DATA, {
         advertiseMode: BLEAdvertiser.ADVERTISE_MODE_BALANCED, 
         txPowerLevel: BLEAdvertiser.ADVERTISE_TX_POWER_MEDIUM, 
         connectable: false, 
@@ -149,8 +136,7 @@ class Entry extends Component {
         .catch(error => console.log(this.state.uuid, "Adv Error", error));
       
       console.log(this.state.uuid, "Starting Scanner");
-      // Manuf Data [1,0] picks up iPhones
-      BLEAdvertiser.scan([1,0], {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
+      BLEAdvertiser.scan(MANUF_DATA, {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
         .then(sucess => console.log(this.state.uuid, "Scan Successful", sucess))
         .catch(error => console.log(this.state.uuid, "Scan Error", error));
 
@@ -160,6 +146,10 @@ class Entry extends Component {
     }
 
     stop(){
+      console.log(this.state.uuid, "Removing Listener");
+      this.onDeviceFound.remove();
+      delete this.onDeviceFound;
+
       console.log(this.state.uuid, "Stopping Broadcast");
       BLEAdvertiser.stopBroadcast()
         .then(sucess => console.log(this.state.uuid, "Stop Broadcast Successful", sucess))
@@ -239,7 +229,6 @@ class Entry extends Component {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: Colors.white,
     height: "100%",
   },
   sectionContainerFlex: {
@@ -258,25 +247,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 8,
     fontWeight: '600',
-    color: Colors.black,
     textAlign: 'center'
   },
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',
     textAlign: 'center',
-    color: Colors.dark,
   },
   highlight: {
     fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
   startLoggingButtonTouchable: {
     borderRadius: 12,

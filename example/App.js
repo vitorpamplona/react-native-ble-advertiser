@@ -7,8 +7,6 @@
  */
 
 import React from 'react';
-
-
 import Entry from './app/Entry';
 
 const App: () => React$Node = () => {
