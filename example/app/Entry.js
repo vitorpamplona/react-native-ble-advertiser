@@ -76,6 +76,7 @@ class Entry extends Component {
         super(props);
         this.state = {
             uuid:'',
+            isLogging: false,
             devicesFound:[]
         }
     }
@@ -165,10 +166,6 @@ class Entry extends Component {
       });
     }
 
-    onClearArray = () => {
-      this.setState({ devicesFound: [] });
-    };
-
     short(str) {
       return (str.substring(0, 4) + " ... " + str.substring(str.length-4, str.length)).toUpperCase(); 
     }
@@ -213,7 +210,7 @@ class Entry extends Component {
 
             <View style={styles.sectionContainer}>
               <TouchableOpacity
-                onPress={this.onClearArray}
+                onPress={() => this.setState({ devicesFound: [] }) }
                 style={styles.startLoggingButtonTouchable}>
                 <Text style={styles.startLoggingButtonText}>
                   Clear Devices
