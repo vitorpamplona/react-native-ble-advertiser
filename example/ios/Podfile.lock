@@ -355,8 +355,8 @@ SPEC CHECKSUMS:
   React-jsi: 600d8e42510c3254fd2abd702f4b9d3f598d8f52
   React-jsiexecutor: e9698dee4fd43ceb44832baf15d5745f455b0157
   React-jsinspector: f74a62727e5604119abd4a1eda52c0a12144bcd5
-  react-native-ble-advertiser: 3f773e62dd85c6811c4ce90c98fad0b8e2093621
-  react-native-uuid-generator: 997d9848f07081ce7200a05b76e3f8c7b309963c
+  react-native-ble-advertiser: 3d210079cf12ae287e8762228f564168636edde7
+  react-native-uuid-generator: 82ffa2a1cac94242ebed52c4dedc5044d3412717
   React-RCTActionSheet: af8f28dd82fec89b8fe29637b8c779829e016a88
   React-RCTAnimation: 0d21fff7c20fb8ee41de5f2ebb63221127febd96
   React-RCTBlob: 9496bd93130b22069bfbc5d35e98653dae7c35c6
