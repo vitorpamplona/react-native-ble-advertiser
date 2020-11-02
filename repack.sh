@@ -1,4 +1,5 @@
 #! /bin/sh 
+npm ci
 
 PACKAGE_VERSION=$(cat package.json \
   | grep version \
