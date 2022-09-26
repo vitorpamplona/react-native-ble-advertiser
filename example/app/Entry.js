@@ -1,6 +1,7 @@
 import React, {Component } from 'react';
 
 import {
+  Alert,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -8,9 +9,9 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  Platform
 } from 'react-native';
 
-import { Alert, Platform } from 'react-native';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import update from 'immutability-helper';
@@ -21,8 +22,6 @@ import { PermissionsAndroid } from 'react-native';
 // Uses the Apple code to pick up iPhones
 const APPLE_ID = 0x4C;
 const MANUF_DATA = [1, 0];
-// No scanner filters (finds all devices inc iPhone). Use UUID suffix to filter scans if using.
-const SCAN_MANUF_DATA = null;
 
 BLEAdvertiser.setCompanyId(APPLE_ID); 
 
@@ -138,7 +137,7 @@ class Entry extends Component {
         .catch(error => console.log(this.state.uuid, "Adv Error", error));
       
       console.log(this.state.uuid, "Starting Scanner");
-      BLEAdvertiser.scan(SCAN_MANUF_DATA, {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
+      BLEAdvertiser.scan(MANUF_DATA, {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
         .then(sucess => console.log(this.state.uuid, "Scan Successful", sucess))
         .catch(error => console.log(this.state.uuid, "Scan Error", error));
 
