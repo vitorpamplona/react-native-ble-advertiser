@@ -1,5 +1,5 @@
 {
-  "name": "BLEAdvertiserExample",
+  "name": "react-native-ble-advertiser-example",
   "version": "0.0.1",
   "private": true,
   "scripts": {

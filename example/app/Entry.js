@@ -117,7 +117,7 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Registering Listener");
-     const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
+      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
 
       this.onDeviceFound = eventEmitter.addListener('onDeviceFound', (event) => {
         //console.log('onDeviceFound', event);

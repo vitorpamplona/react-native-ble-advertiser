@@ -6,7 +6,6 @@ buildscript {
         minSdkVersion = 21
         compileSdkVersion = 31
         targetSdkVersion = 28
-        androidXCore = "1.6.0"
     }
     repositories {
         google()
