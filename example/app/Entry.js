@@ -14,13 +14,15 @@ import { Alert, Platform } from 'react-native';
 import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import update from 'immutability-helper';
-import BLEAdvertiser from 'react-native-ble-advertiser'
+import BLEAdvertiser from 'react-native-ble-advertiser';
 import UUIDGenerator from 'react-native-uuid-generator';
 import { PermissionsAndroid } from 'react-native';
 
 // Uses the Apple code to pick up iPhones
 const APPLE_ID = 0x4C;
-const MANUF_DATA = [1,0];
+const MANUF_DATA = [1, 0];
+// No scanner filters (finds all devices inc iPhone). Use UUID suffix to filter scans if using.
+const SCAN_MANUF_DATA = null;
 
 BLEAdvertiser.setCompanyId(APPLE_ID); 
 
@@ -100,7 +102,6 @@ class Entry extends Component {
 
     componentDidMount(){
       requestLocationPermission();
-      
       UUIDGenerator.getRandomUUID((newUid) => {
         this.setState({
           uuid: newUid.slice(0, -2) + '00'
@@ -115,7 +116,7 @@ class Entry extends Component {
 
     start() {
       console.log(this.state.uuid, "Registering Listener");
-      const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
+     const eventEmitter = new NativeEventEmitter(NativeModules.BLEAdvertiser);
 
       this.onDeviceFound = eventEmitter.addListener('onDeviceFound', (event) => {
         //console.log('onDeviceFound', event);
@@ -137,7 +138,7 @@ class Entry extends Component {
         .catch(error => console.log(this.state.uuid, "Adv Error", error));
       
       console.log(this.state.uuid, "Starting Scanner");
-      BLEAdvertiser.scan(MANUF_DATA, {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
+      BLEAdvertiser.scan(SCAN_MANUF_DATA, {scanMode: BLEAdvertiser.SCAN_MODE_LOW_LATENCY})
         .then(sucess => console.log(this.state.uuid, "Scan Successful", sucess))
         .catch(error => console.log(this.state.uuid, "Scan Error", error));
 
