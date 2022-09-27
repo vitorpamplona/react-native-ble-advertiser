@@ -269,6 +269,16 @@ public class BLEAdvertiserModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void addListener(String eventName) {
+
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+
+    }
+
+    @ReactMethod
 	public void stopScan(Promise promise) {
         if (mBluetoothAdapter == null) {
             promise.reject("Device does not support Bluetooth. Adapter is Null");
