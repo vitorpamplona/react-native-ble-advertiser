@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "immutability-helper": "^3.1.1",
-    "react": "18.0.0",
-    "react-native": "0.69.0",
+    "react": "18.1.0",
+    "react-native": "0.70.1",
     "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.16.tgz",
     "react-native-uuid-generator": "^6.1.1"
   },
@@ -23,8 +23,8 @@
     "babel-jest": "^26.6.3",
     "eslint": "^7.32.0",
     "jest": "^26.6.3",
-    "metro-react-native-babel-preset": "^0.70.3",
-    "react-test-renderer": "18.0.0"
+    "metro-react-native-babel-preset": "^0.72.1",
+    "react-test-renderer": "18.1.0"
   },
   "jest": {
     "preset": "react-native"
