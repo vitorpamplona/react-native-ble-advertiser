@@ -24,7 +24,7 @@ const APPLE_ID = 0x4c;
 const MANUF_DATA = [1, 0];
 // No scanner filters (finds all devices inc iPhone). Use UUID suffix to filter scans if using.
 const SCAN_MANUF_DATA = Platform.OS === 'android' ? null : MANUF_DATA;
-
+const UUID_SUFFIX = '00'
 BLEAdvertiser.setCompanyId(APPLE_ID);
 
 const requestPermissionsAndroid = () => {
@@ -130,7 +130,7 @@ class Entry extends Component {
     requestLocationPermission();
     UUIDGenerator.getRandomUUID((newUid) => {
       this.setState({
-        uuid: newUid.slice(0, -2) + '00',
+        uuid: newUid.slice(0, -2) + UUID_SUFFIX,
       });
     });
   }
@@ -149,7 +149,7 @@ class Entry extends Component {
       //console.log('onDeviceFound', event);
       if (event.serviceUuids) {
         for (let i = 0; i < event.serviceUuids.length; i++) {
-          if (event.serviceUuids[i] && event.serviceUuids[i].endsWith('00')) {
+          if (event.serviceUuids[i] && event.serviceUuids[i].endsWith(UUID_SUFFIX)) {
             this.addDevice(
               event.serviceUuids[i],
               event.deviceName,
