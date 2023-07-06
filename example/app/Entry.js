@@ -16,6 +16,7 @@ import {NativeEventEmitter, NativeModules} from 'react-native';
 import update from 'immutability-helper';
 import BLEAdvertiser from 'react-native-ble-advertiser';
 import UUIDGenerator from 'react-native-uuid-generator';
+import { requestMultiple, checkMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import {PermissionsAndroid} from 'react-native';
 
 // Uses the Apple code to pick up iPhones
@@ -26,21 +27,32 @@ const SCAN_MANUF_DATA = Platform.OS === 'android' ? null : MANUF_DATA;
 
 BLEAdvertiser.setCompanyId(APPLE_ID);
 
+const requestPermissionsAndroid = () => {
+  checkMultiple([PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE,
+  PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
+  PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
+  PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE]);
+    console.log('Connect', res[PERMISSIONS.ANDROID.BLUETOOTH_CONNECT]);
+    console.log('Scan', res[PERMISSIONS.ANDROID.BLUETOOTH_SCAN]);
+    console.log('Bluetooth Android 10', res[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]);
+  })
+
+  requestMultiple([PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE,
+  PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
+  PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
+  PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE]);
+    console.log('Connect', res[PERMISSIONS.ANDROID.BLUETOOTH_CONNECT]);
+    console.log('Scan', res[PERMISSIONS.ANDROID.BLUETOOTH_SCAN]);
+    console.log('Bluetooth Android 10', res[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]);
+  })
+}
+
 export async function requestLocationPermission() {
   try {
     if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'BLE Avertiser Example App',
-          message: 'Example App access to your location ',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('[Permissions]', 'Location Permission granted');
-      } else {
-        console.log('[Permissions]', 'Location Permission denied');
-      }
+      requestPermissionsAndroid();
     }
 
     const blueoothActive = await BLEAdvertiser.getAdapterState()

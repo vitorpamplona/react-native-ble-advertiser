@@ -14,6 +14,7 @@
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.17.tgz",
+    "react-native-permissions": "^3.8.3",
     "react-native-uuid-generator": "^6.1.1"
   },
   "devDependencies": {
