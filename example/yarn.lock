@@ -5611,8 +5611,7 @@ react-is@^18.1.0:
 
 "react-native-ble-advertiser@file:../react-native-ble-advertiser-0.0.17.tgz":
   version "0.0.17"
-  resolved "file:../react-native-ble-advertiser-0.0.17.tgz"
-  integrity sha512-8eK0OhtP4+mk95JGlF6XwEmBNHJpjboyVAiAXvNQyHbGsyY6qZzb4iYb+2Jce/fF3fXzRC/LaM6cfDWvpjq+Ew==
+  resolved "file:../react-native-ble-advertiser-0.0.17.tgz#7b1236d37aae84e5cc4604005bad957768ddc530"
 
 react-native-codegen@^0.70.6:
   version "0.70.6"
