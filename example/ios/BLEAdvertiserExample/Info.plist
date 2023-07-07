@@ -37,10 +37,12 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We log your location to allow comparisons with other user's locations in a privacy-preserving way.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>We broadcast and scan for bluetooth signals in a way to track all phones nearby you in a privacy-preserving way.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>We broadcast and scan for bluetooth signals in a way to track all phones nearby you in a privacy-preserving way.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We log your location to allow comparisons with other user&apos;s locations in a privacy-preserving way.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

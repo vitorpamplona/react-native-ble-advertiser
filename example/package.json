@@ -12,8 +12,9 @@
   "dependencies": {
     "immutability-helper": "^3.1.1",
     "react": "18.1.0",
-    "react-native": "0.70.1",
-    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.16.tgz",
+    "react-native": "0.70.5",
+    "react-native-ble-advertiser": "file:../react-native-ble-advertiser-0.0.17.tgz",
+    "react-native-permissions": "^3.8.3",
     "react-native-uuid-generator": "^6.1.1"
   },
   "devDependencies": {
@@ -28,5 +29,9 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "reactNativePermissionsIOS": [
+    "BluetoothPeripheral",
+    "LocationWhenInUse"
+  ]
 }

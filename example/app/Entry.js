@@ -16,31 +16,58 @@ import {NativeEventEmitter, NativeModules} from 'react-native';
 import update from 'immutability-helper';
 import BLEAdvertiser from 'react-native-ble-advertiser';
 import UUIDGenerator from 'react-native-uuid-generator';
-import {PermissionsAndroid} from 'react-native';
+import { requestMultiple, checkMultiple, PERMISSIONS } from 'react-native-permissions';
 
 // Uses the Apple code to pick up iPhones
 const APPLE_ID = 0x4c;
 const MANUF_DATA = [1, 0];
 // No scanner filters (finds all devices inc iPhone). Use UUID suffix to filter scans if using.
 const SCAN_MANUF_DATA = Platform.OS === 'android' ? null : MANUF_DATA;
-
+const UUID_SUFFIX = '00'
 BLEAdvertiser.setCompanyId(APPLE_ID);
+
+const requestPermissionsAndroid = () => {
+  checkMultiple([PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE,
+  PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
+  PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
+  PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE]);
+    console.log('Connect', res[PERMISSIONS.ANDROID.BLUETOOTH_CONNECT]);
+    console.log('Scan', res[PERMISSIONS.ANDROID.BLUETOOTH_SCAN]);
+    console.log('Bluetooth Android 10', res[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]);
+  })
+
+  requestMultiple([PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE,
+  PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
+  PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
+  PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.ANDROID.BLUETOOTH_ADVERTISE]);
+    console.log('Connect', res[PERMISSIONS.ANDROID.BLUETOOTH_CONNECT]);
+    console.log('Scan', res[PERMISSIONS.ANDROID.BLUETOOTH_SCAN]);
+    console.log('Bluetooth Android 10', res[PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION]);
+  })
+}
+
+const requestPermissionsIos = () => {
+  checkMultiple([PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL,
+  PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]);
+    console.log('Connect', res[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL]);
+  })
+
+  requestMultiple([PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL,
+  PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]);
+    console.log('Connect', res[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL]);
+  })
+}
 
 export async function requestLocationPermission() {
   try {
     if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'BLE Avertiser Example App',
-          message: 'Example App access to your location ',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('[Permissions]', 'Location Permission granted');
-      } else {
-        console.log('[Permissions]', 'Location Permission denied');
-      }
+      requestPermissionsAndroid();
+    } else {
+      requestPermissionsIos();
     }
 
     const blueoothActive = await BLEAdvertiser.getAdapterState()
@@ -118,7 +145,7 @@ class Entry extends Component {
     requestLocationPermission();
     UUIDGenerator.getRandomUUID((newUid) => {
       this.setState({
-        uuid: newUid.slice(0, -2) + '00',
+        uuid: newUid.slice(0, -2) + UUID_SUFFIX,
       });
     });
   }
@@ -137,7 +164,7 @@ class Entry extends Component {
       //console.log('onDeviceFound', event);
       if (event.serviceUuids) {
         for (let i = 0; i < event.serviceUuids.length; i++) {
-          if (event.serviceUuids[i] && event.serviceUuids[i].endsWith('00')) {
+          if (event.serviceUuids[i] && event.serviceUuids[i].endsWith(UUID_SUFFIX)) {
             this.addDevice(
               event.serviceUuids[i],
               event.deviceName,
