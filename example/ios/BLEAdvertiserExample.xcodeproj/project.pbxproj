@@ -12,8 +12,8 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		276CE0063F7B37EA9FE1237D /* libPods-BLEAdvertiserExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE459AF3BB78ED607719501F /* libPods-BLEAdvertiserExample.a */; };
-		5C2B4634A9B352C1E4EA2F3F /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 526A73E59807DA6E5092175D /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */; };
+		4610C25B0BBDB4CF2D5BEAA7 /* libPods-BLEAdvertiserExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6C2F863DB8D81082FBA445 /* libPods-BLEAdvertiserExample.a */; };
+		5BEFCBDD946E1C2B5DD9896D /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFDC9BC5B155FA08707B6AC5 /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,7 +31,6 @@
 		00E356EE1AD99517003FC87E /* BLEAdvertiserExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLEAdvertiserExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BLEAdvertiserExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLEAdvertiserExampleTests.m; sourceTree = "<group>"; };
-		11ED148113DDE91A7EBD438E /* Pods-BLEAdvertiserExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.release.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BLEAdvertiserExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLEAdvertiserExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BLEAdvertiserExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = BLEAdvertiserExample/AppDelegate.m; sourceTree = "<group>"; };
@@ -39,11 +38,12 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = BLEAdvertiserExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = BLEAdvertiserExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = BLEAdvertiserExample/main.m; sourceTree = "<group>"; };
-		526A73E59807DA6E5092175D /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		79F21550F8C8CF1E891209F4 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		BAC2B16B409EE7CE5A82B270 /* Pods-BLEAdvertiserExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.debug.xcconfig"; sourceTree = "<group>"; };
-		CE459AF3BB78ED607719501F /* libPods-BLEAdvertiserExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLEAdvertiserExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E822C020BCE3D3BA9FF81A35 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7A2445A3E63AA2FF4823874B /* Pods-BLEAdvertiserExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.release.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.release.xcconfig"; sourceTree = "<group>"; };
+		7E6C2F863DB8D81082FBA445 /* libPods-BLEAdvertiserExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLEAdvertiserExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA654850AE39576C512A0153 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		BFDC9BC5B155FA08707B6AC5 /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF098209424B9B0F3428BC60 /* Pods-BLEAdvertiserExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample.debug.xcconfig"; sourceTree = "<group>"; };
+		D267531E29B1788F1AE7C5F7 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C2B4634A9B352C1E4EA2F3F /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a in Frameworks */,
+				5BEFCBDD946E1C2B5DD9896D /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				276CE0063F7B37EA9FE1237D /* libPods-BLEAdvertiserExample.a in Frameworks */,
+				4610C25B0BBDB4CF2D5BEAA7 /* libPods-BLEAdvertiserExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,8 +104,8 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				CE459AF3BB78ED607719501F /* libPods-BLEAdvertiserExample.a */,
-				526A73E59807DA6E5092175D /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */,
+				7E6C2F863DB8D81082FBA445 /* libPods-BLEAdvertiserExample.a */,
+				BFDC9BC5B155FA08707B6AC5 /* libPods-BLEAdvertiserExample-BLEAdvertiserExampleTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -113,10 +113,10 @@
 		50FF01A95101365DD5E7033D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BAC2B16B409EE7CE5A82B270 /* Pods-BLEAdvertiserExample.debug.xcconfig */,
-				11ED148113DDE91A7EBD438E /* Pods-BLEAdvertiserExample.release.xcconfig */,
-				E822C020BCE3D3BA9FF81A35 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */,
-				79F21550F8C8CF1E891209F4 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */,
+				CF098209424B9B0F3428BC60 /* Pods-BLEAdvertiserExample.debug.xcconfig */,
+				7A2445A3E63AA2FF4823874B /* Pods-BLEAdvertiserExample.release.xcconfig */,
+				D267531E29B1788F1AE7C5F7 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */,
+				BA654850AE39576C512A0153 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -159,12 +159,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BLEAdvertiserExampleTests" */;
 			buildPhases = (
-				924BE804C9A8210157D3E3EE /* [CP] Check Pods Manifest.lock */,
+				50C309493AFEF7FA838511B8 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				2317689948CB06DC1DEE1D98 /* [CP] Embed Pods Frameworks */,
-				4C7589080686CE85F09DDB06 /* [CP] Copy Pods Resources */,
+				36379D16764022E2F89622E7 /* [CP] Embed Pods Frameworks */,
+				CDF86A6E7F1174BA79D505F1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -180,14 +180,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "BLEAdvertiserExample" */;
 			buildPhases = (
-				4FEF71D5BB31BCF14C8C0032 /* [CP] Check Pods Manifest.lock */,
+				6A54565FA74021632257ECBD /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				80C989BF3DB2E19A7BBF4FF4 /* [CP] Embed Pods Frameworks */,
-				742553F636084A8397538141 /* [CP] Copy Pods Resources */,
+				58CD611D7C7CE46D518EB3FD /* [CP] Embed Pods Frameworks */,
+				F759D4FB6138C866E6230FA5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -270,7 +270,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		2317689948CB06DC1DEE1D98 /* [CP] Embed Pods Frameworks */ = {
+		36379D16764022E2F89622E7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -294,25 +294,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4C7589080686CE85F09DDB06 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4FEF71D5BB31BCF14C8C0032 /* [CP] Check Pods Manifest.lock */ = {
+		50C309493AFEF7FA838511B8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -327,32 +309,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BLEAdvertiserExample-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		742553F636084A8397538141 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		80C989BF3DB2E19A7BBF4FF4 /* [CP] Embed Pods Frameworks */ = {
+		58CD611D7C7CE46D518EB3FD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -376,7 +340,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		924BE804C9A8210157D3E3EE /* [CP] Check Pods Manifest.lock */ = {
+		6A54565FA74021632257ECBD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -391,11 +355,47 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-BLEAdvertiserExample-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CDF86A6E7F1174BA79D505F1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests/Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F759D4FB6138C866E6230FA5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BLEAdvertiserExample/Pods-BLEAdvertiserExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -462,7 +462,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E822C020BCE3D3BA9FF81A35 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */;
+			baseConfigurationReference = D267531E29B1788F1AE7C5F7 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -492,7 +492,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79F21550F8C8CF1E891209F4 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */;
+			baseConfigurationReference = BA654850AE39576C512A0153 /* Pods-BLEAdvertiserExample-BLEAdvertiserExampleTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -519,7 +519,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAC2B16B409EE7CE5A82B270 /* Pods-BLEAdvertiserExample.debug.xcconfig */;
+			baseConfigurationReference = CF098209424B9B0F3428BC60 /* Pods-BLEAdvertiserExample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -547,7 +547,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 11ED148113DDE91A7EBD438E /* Pods-BLEAdvertiserExample.release.xcconfig */;
+			baseConfigurationReference = 7A2445A3E63AA2FF4823874B /* Pods-BLEAdvertiserExample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
