@@ -16,8 +16,7 @@ import {NativeEventEmitter, NativeModules} from 'react-native';
 import update from 'immutability-helper';
 import BLEAdvertiser from 'react-native-ble-advertiser';
 import UUIDGenerator from 'react-native-uuid-generator';
-import { requestMultiple, checkMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
-import {PermissionsAndroid} from 'react-native';
+import { requestMultiple, checkMultiple, PERMISSIONS } from 'react-native-permissions';
 
 // Uses the Apple code to pick up iPhones
 const APPLE_ID = 0x4c;
@@ -49,10 +48,26 @@ const requestPermissionsAndroid = () => {
   })
 }
 
+const requestPermissionsIos = () => {
+  checkMultiple([PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL,
+  PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]);
+    console.log('Connect', res[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL]);
+  })
+
+  requestMultiple([PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL,
+  PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]).then(res => {
+    console.log('Advertise', res[PERMISSIONS.IOS.LOCATION_WHEN_IN_USE]);
+    console.log('Connect', res[PERMISSIONS.IOS.BLUETOOTH_PERIPHERAL]);
+  })
+}
+
 export async function requestLocationPermission() {
   try {
     if (Platform.OS === 'android') {
       requestPermissionsAndroid();
+    } else {
+      requestPermissionsIos();
     }
 
     const blueoothActive = await BLEAdvertiser.getAdapterState()

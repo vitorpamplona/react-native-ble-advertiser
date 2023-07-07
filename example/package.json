@@ -29,5 +29,9 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "reactNativePermissionsIOS": [
+    "BluetoothPeripheral",
+    "LocationWhenInUse"
+  ]
 }
